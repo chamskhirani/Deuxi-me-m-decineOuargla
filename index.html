@@ -108,6 +108,7 @@
       left: 0;
       opacity: 1;
     }
+    
     /* Sections pour chaque appareil (sous-cartes) */
     .section {
       display: none;
@@ -127,7 +128,7 @@
       justify-content: center;
       gap: 20px;
     }
-    /* Les sous-cartes adoptent désormais le même dégradé que les cartes principales */
+    /* Les sous-cartes adoptent désormais le même dégradé fluide que les cartes principales */
     .subcard {
       width: 300px;
       height: 150px;
@@ -139,7 +140,7 @@
       align-items: center;
       font-size: 20px;
       font-weight: bold;
-      color: white;
+      color: #333; /* Texte en couleur foncée pour une bonne lisibilité */
       transition: transform 0.3s ease;
       cursor: pointer;
     }
@@ -172,7 +173,7 @@
       text-align: center;
       padding: 10px;
       font-size: 14px;
-      margin: 0; /* Correction de l'espace en bas */
+      margin: 0; /* Suppression de l'espace supplémentaire en bas */
     }
   </style>
 </head>
@@ -249,7 +250,9 @@
   <div id="endocrine" class="section">
     <header>Appareil Endocrinien et Génital</header>
     <div class="subcontainer">
-      <a href="https://drive.google.com/file/d/1Wen-DPFiiE699USZLME0b2zGVHhiO9YB/view?usp=sharing" class="subcard link">Contrôle</a>
+      <a href="https://drive.google.com/file/d/1Wen-DPFiiE699USZLME0b2zGVHhiO9YB/view?usp=sharing" class="subcard link">
+        Contrôle
+      </a>
       <div class="subcard">QCS</div>
       <div class="subcard">TD Anatomie et Histologie</div>
       <div class="subcard">Autres Sources</div>
