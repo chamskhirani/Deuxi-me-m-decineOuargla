@@ -41,7 +41,6 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             cursor: pointer;
             transition: transform 0.2s;
-            position: relative;
             color: white;
             font-weight: bold;
             text-shadow: 1px 1px 2px black;
@@ -61,8 +60,8 @@
             opacity: 1;
         }
 
-        /* Section cachée pour Appareil Endocrinien et Génital */
-        #endocrine-section {
+        /* Sections cachées */
+        .section {
             display: none;
             background-color: #f5f5f5;
             padding: 20px;
@@ -80,13 +79,11 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             cursor: pointer;
             transition: transform 0.2s;
-            position: relative;
             color: white;
             font-weight: bold;
             text-shadow: 1px 1px 2px black;
-            text-decoration: none;
             font-size: 18px;
-            background-color: #E7B1A5; /* Nouvelle couleur pour toutes les sous-boîtes */
+            background-color: #E7B1A5;
         }
         .box-small:hover {
             transform: scale(1.05);
@@ -114,16 +111,49 @@
 
     <!-- PAGE PRINCIPALE -->
     <div class="container fade visible" id="main-page">
-        <div class="box">Appareil Cardio-vasculaire, Respiratoire et Hématopoïétique</div>
-        <div class="box">Appareil Digestif</div>
-        <div class="box">Appareil Urinaire</div>
-        <div class="box" onclick="showEndocrine()">Appareil Endocrinien et Génital</div>
-        <div class="box">Appareil Neurosensoriel</div>
-        <div class="box">Génétique</div>
+        <div class="box" onclick="showSection('cardio')">Appareil Cardio-vasculaire, Respiratoire et Hématopoïétique</div>
+        <div class="box" onclick="showSection('digestif')">Appareil Digestif</div>
+        <div class="box" onclick="showSection('urinaire')">Appareil Urinaire</div>
+        <div class="box" onclick="showSection('endocrine')">Appareil Endocrinien et Génital</div>
+        <div class="box" onclick="showSection('neurosensoriel')">Appareil Neurosensoriel</div>
+        <div class="box" onclick="showSection('genetique')">Génétique</div>
     </div>
 
-    <!-- PAGE "Appareil Endocrinien et Génital" -->
-    <div id="endocrine-section" class="fade">
+    <!-- SECTIONS POUR CHAQUE APPAREIL -->
+    <div id="cardio" class="section fade">
+        <header>Appareil Cardio-vasculaire, Respiratoire et Hématopoïétique</header>
+        <div class="container">
+            <div class="box-small">Contrôle</div>
+            <div class="box-small">QCS</div>
+            <div class="box-small">TD Anatomie et Histologie</div>
+            <div class="box-small">Autres Sources</div>
+        </div>
+        <button onclick="showMain()" class="btn-retour">Retour</button>
+    </div>
+
+    <div id="digestif" class="section fade">
+        <header>Appareil Digestif</header>
+        <div class="container">
+            <div class="box-small">Contrôle</div>
+            <div class="box-small">QCS</div>
+            <div class="box-small">TD Anatomie et Histologie</div>
+            <div class="box-small">Autres Sources</div>
+        </div>
+        <button onclick="showMain()" class="btn-retour">Retour</button>
+    </div>
+
+    <div id="urinaire" class="section fade">
+        <header>Appareil Urinaire</header>
+        <div class="container">
+            <div class="box-small">Contrôle</div>
+            <div class="box-small">QCS</div>
+            <div class="box-small">TD Anatomie et Histologie</div>
+            <div class="box-small">Autres Sources</div>
+        </div>
+        <button onclick="showMain()" class="btn-retour">Retour</button>
+    </div>
+
+    <div id="endocrine" class="section fade">
         <header>Appareil Endocrinien et Génital</header>
         <div class="container">
             <a href="https://drive.google.com/file/d/1Wen-DPFiiE699USZLME0b2zGVHhiO9YB/view?usp=sharing" class="box-small">Contrôle</a>
@@ -134,30 +164,44 @@
         <button onclick="showMain()" class="btn-retour">Retour</button>
     </div>
 
-    <script>
-        function showEndocrine() {
-            let mainPage = document.getElementById('main-page');
-            let endocrineSection = document.getElementById('endocrine-section');
+    <div id="neurosensoriel" class="section fade">
+        <header>Appareil Neurosensoriel</header>
+        <div class="container">
+            <div class="box-small">Contrôle</div>
+            <div class="box-small">QCS</div>
+            <div class="box-small">TD Anatomie et Histologie</div>
+            <div class="box-small">Autres Sources</div>
+        </div>
+        <button onclick="showMain()" class="btn-retour">Retour</button>
+    </div>
 
-            // Cacher la page principale avec effet de fondu
-            mainPage.classList.remove('visible');
+    <div id="genetique" class="section fade">
+        <header>Génétique</header>
+        <div class="container">
+            <div class="box-small">Contrôle</div>
+            <div class="box-small">QCS</div>
+            <div class="box-small">TD Anatomie et Histologie</div>
+            <div class="box-small">Autres Sources</div>
+        </div>
+        <button onclick="showMain()" class="btn-retour">Retour</button>
+    </div>
+
+    <script>
+        function showSection(id) {
+            document.getElementById('main-page').classList.remove('visible');
             setTimeout(() => {
-                mainPage.style.display = 'none';
-                endocrineSection.style.display = 'block';
-                setTimeout(() => endocrineSection.classList.add('visible'), 50);
+                document.getElementById('main-page').style.display = 'none';
+                document.getElementById(id).style.display = 'block';
+                setTimeout(() => document.getElementById(id).classList.add('visible'), 50);
             }, 500);
         }
 
         function showMain() {
-            let mainPage = document.getElementById('main-page');
-            let endocrineSection = document.getElementById('endocrine-section');
-
-            // Cacher la section endocrinienne avec effet de fondu
-            endocrineSection.classList.remove('visible');
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('visible'));
             setTimeout(() => {
-                endocrineSection.style.display = 'none';
-                mainPage.style.display = 'flex';
-                setTimeout(() => mainPage.classList.add('visible'), 50);
+                document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+                document.getElementById('main-page').style.display = 'flex';
+                setTimeout(() => document.getElementById('main-page').classList.add('visible'), 50);
             }, 500);
         }
     </script>
