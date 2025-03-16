@@ -36,7 +36,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+            transition: transform 0.2s;
             position: relative;
             color: white;
             font-weight: bold;
@@ -47,10 +47,14 @@
         .box:hover {
             transform: scale(1.05);
         }
-        .box:active {
-            transform: scale(1.1);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-            background: linear-gradient(135deg, #FFC0CB, #E08090, #B86B7E);
+        
+        /* Animation de fondu */
+        .fade {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .visible {
+            opacity: 1;
         }
 
         /* Section cachée pour Appareil Endocrinien et Génital */
@@ -71,24 +75,19 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+            transition: transform 0.2s;
             position: relative;
             color: white;
             font-weight: bold;
             text-shadow: 1px 1px 2px black;
             text-decoration: none;
             font-size: 18px;
-            background-color: #E7B1A5;
+            background-color: #E7B1A5; /* Nouvelle couleur pour toutes les sous-boîtes */
         }
         .box-small:hover {
             transform: scale(1.05);
         }
-        .box-small:active {
-            transform: scale(1.1);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-            background-color: #D49A94;
-        }
-
+        
         /* Bouton retour */
         .btn-retour {
             margin-top: 20px;
@@ -99,13 +98,10 @@
             background-color: #D4A190;
             color: white;
             border-radius: 5px;
-            transition: background 0.3s, transform 0.2s;
+            transition: background 0.3s;
         }
         .btn-retour:hover {
             background-color: #B07C6F;
-        }
-        .btn-retour:active {
-            transform: scale(0.95);
         }
     </style>
 </head>
@@ -113,7 +109,7 @@
     <header>Deuxième année de médecine, Algérie, Ouargla</header>
 
     <!-- PAGE PRINCIPALE -->
-    <div class="container" id="main-page">
+    <div class="container fade visible" id="main-page">
         <div class="box">Appareil Cardio-vasculaire, Respiratoire et Hématopoïétique</div>
         <div class="box">Appareil Digestif</div>
         <div class="box">Appareil Urinaire</div>
@@ -123,7 +119,7 @@
     </div>
 
     <!-- PAGE "Appareil Endocrinien et Génital" -->
-    <div id="endocrine-section">
+    <div id="endocrine-section" class="fade">
         <header>Appareil Endocrinien et Génital</header>
         <div class="container">
             <a href="https://drive.google.com/file/d/1Wen-DPFiiE699USZLME0b2zGVHhiO9YB/view?usp=sharing" class="box-small">Contrôle</a>
@@ -136,13 +132,29 @@
 
     <script>
         function showEndocrine() {
-            document.getElementById('main-page').style.display = 'none';
-            document.getElementById('endocrine-section').style.display = 'block';
+            let mainPage = document.getElementById('main-page');
+            let endocrineSection = document.getElementById('endocrine-section');
+
+            // Cacher la page principale avec effet de fondu
+            mainPage.classList.remove('visible');
+            setTimeout(() => {
+                mainPage.style.display = 'none';
+                endocrineSection.style.display = 'block';
+                setTimeout(() => endocrineSection.classList.add('visible'), 50);
+            }, 500);
         }
 
         function showMain() {
-            document.getElementById('main-page').style.display = 'flex';
-            document.getElementById('endocrine-section').style.display = 'none';
+            let mainPage = document.getElementById('main-page');
+            let endocrineSection = document.getElementById('endocrine-section');
+
+            // Cacher la section endocrinienne avec effet de fondu
+            endocrineSection.classList.remove('visible');
+            setTimeout(() => {
+                endocrineSection.style.display = 'none';
+                mainPage.style.display = 'flex';
+                setTimeout(() => mainPage.classList.add('visible'), 50);
+            }, 500);
         }
     </script>
 
