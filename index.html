@@ -51,22 +51,27 @@
         .box:nth-child(2) { background-image: url('stomach_background.png'); }
         .box:nth-child(3) { background-image: url('kidneys_background.png'); }
         .box:nth-child(5) { background-image: url('endocrine_background.png'); }
-        .pdf-box {
+        
+        .hidden { display: none; }
+        .sub-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
             margin-top: 10px;
-            padding: 10px;
-            background-color: rgba(0, 0, 0, 0.5);
-            border-radius: 5px;
         }
-        .pdf-box a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
+        .sub-box {
+            padding: 15px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        .pdf-box a svg {
-            margin-right: 5px;
+            border-radius: 5px;
+            background-color: white;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
@@ -76,20 +81,22 @@
         <div class="box">Unité 1</div>
         <div class="box">Unité 2</div>
         <div class="box">Unité 3</div>
-        <div class="box">
-            Unité 4
-            <div class="pdf-box">
-                <a href="https://raw.githubusercontent.com/USERNAME/medecine-ouargla/main/TD_unite4.pdf" download>
-                    <svg aria-hidden="true" focusable="false" class="octicon octicon-download" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
-                        <path d="M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z"></path>
-                        <path d="M7.25 7.689V2a.75.75 0 0 1 1.5 0v5.689l1.97-1.969a.749.749 0 1 1 1.06 1.06l-3.25 3.25a.749.749 0 0 1-1.06 0L4.22 6.78a.749.749 0 1 1 1.06-1.06l1.97 1.969Z"></path>
-                    </svg>
-                    Télécharger TD (PDF)
-                </a>
-            </div>
+        <div class="box" onclick="toggleSubBoxes()">Unité 4</div>
+        <div class="sub-container hidden" id="sub-boxes">
+            <div class="sub-box" onclick="window.location.href='https://drive.google.com/drive/u/0/home'">1</div>
+            <div class="sub-box">2</div>
+            <div class="sub-box">3</div>
+            <div class="sub-box">4</div>
         </div>
         <div class="box">Unité 5</div>
         <div class="box">Unité 6</div>
     </div>
+    
+    <script>
+        function toggleSubBoxes() {
+            let subBoxes = document.getElementById("sub-boxes");
+            subBoxes.classList.toggle("hidden");
+        }
+    </script>
 </body>
 </html>
