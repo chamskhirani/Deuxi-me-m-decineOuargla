@@ -29,7 +29,7 @@
             padding: 20px;
             margin: 10px;
             width: 250px;
-            height: 120px;
+            height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -43,22 +43,89 @@
             color: white;
             font-weight: bold;
             text-shadow: 1px 1px 2px black;
+            font-size: 18px;
         }
         .box:hover {
             transform: scale(1.05);
         }
+        .box:nth-child(1) { background-image: url('heart_background.png'); }
+        .box:nth-child(2) { background-image: url('stomach_background.png'); }
+        .box:nth-child(3) { background-image: url('kidneys_background.png'); }
+        .box:nth-child(4) { background-image: url('endocrine_background.png'); }
+        .box:nth-child(5) { background-image: url('brain_background.png'); }
+        .box:nth-child(6) { background-image: url('genetics_background.png'); }
+        
+        /* Section cachée pour Appareil Endocrinien et Génital */
+        #endocrine-section {
+            display: none;
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .box-small {
+            padding: 20px;
+            margin: 10px;
+            width: 250px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px black;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .box-small:hover {
+            transform: scale(1.05);
+        }
+        .box1 { background-color: red; }
+        .box2 { background-color: green; }
+        .box3 { background-color: blue; }
+        .box4 { background-color: purple; }
     </style>
 </head>
 <body>
     <header>Deuxième année de médecine, Algérie, Ouargla</header>
-    <div class="container">
-        <div class="box" style="background-image: url('heart_background.png');">Appareil Cardio-vasculaire, Respiratoire et organes hématopoïétiques</div>
-        <div class="box" style="background-image: url('digestif_background.png');">Appareil Digestif</div>
-        <div class="box" style="background-image: url('urinaire_background.png');">Appareil Urinaire</div>
-        <div class="box" style="background-image: url('endocrinien_background.png');">Appareil Endocrinien et Génital</div>
-        <div class="box" style="background-image: url('neurosensoriel_background.png');">Appareil Neurosensoriel</div>
-        <div class="box" style="background-image: url('genetique_background.png');">Génétique</div>
-        <div class="box" style="background-image: url('immunologie_background.png');">Immunologie</div>
+
+    <!-- PAGE PRINCIPALE -->
+    <div class="container" id="main-page">
+        <div class="box" onclick="showEndocrine()">Appareil Cardio-vasculaire, Respiratoire et Hématopoïétique</div>
+        <div class="box">Appareil Digestif</div>
+        <div class="box">Appareil Urinaire</div>
+        <div class="box" onclick="showEndocrine()">Appareil Endocrinien et Génital</div>
+        <div class="box">Appareil Neurosensoriel</div>
+        <div class="box">Génétique</div>
     </div>
+
+    <!-- PAGE "Appareil Endocrinien et Génital" -->
+    <div id="endocrine-section">
+        <header>Appareil Endocrinien et Génital</header>
+        <div class="container">
+            <a href="https://drive.google.com/file/d/1Wen-DPFiiE699USZLME0b2zGVHhiO9YB/view?usp=sharing" class="box-small box1">Contrôle</a>
+            <div class="box-small box2">QCS</div>
+            <div class="box-small box3">TD Anatomie et Histologie</div>
+            <div class="box-small box4">Autres Sources</div>
+        </div>
+        <button onclick="showMain()" style="margin-top:20px; padding:10px 20px; font-size:16px; cursor:pointer;">Retour</button>
+    </div>
+
+    <script>
+        function showEndocrine() {
+            document.getElementById('main-page').style.display = 'none';
+            document.getElementById('endocrine-section').style.display = 'block';
+        }
+
+        function showMain() {
+            document.getElementById('main-page').style.display = 'flex';
+            document.getElementById('endocrine-section').style.display = 'none';
+        }
+    </script>
+
 </body>
 </html>
