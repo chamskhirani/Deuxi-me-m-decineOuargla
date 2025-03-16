@@ -20,11 +20,11 @@
       margin: 0;
       padding: 0;
       font-family: 'Amiri', sans-serif;
-      background-color: #f0f8ff; /* AliceBlue pour un fond apaisant */
+      background-color: #f0f8ff; /* Fond clair apaisant */
       color: #333;
     }
     header {
-      background-color: #007bff; /* Bleu professionnel et rassurant */
+      background-color: #007bff; /* Bleu professionnel */
       color: white;
       padding: 20px;
       text-align: center;
@@ -33,33 +33,34 @@
       top: 0;
       z-index: 1000;
     }
-    
-    /* Conteneur principal */
-    .container {
+    /* Conteneur principal (page principale) */
+    #main-page {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
       padding: 20px;
+      transition: opacity 0.5s ease-in-out;
     }
-    
-    /* Cartes (boîtes) */
+    /* Style des cartes principales */
     .card {
-      width: 300px;  /* Légèrement agrandi */
-      height: 150px; /* Légèrement agrandi */
-      background: linear-gradient(135deg, #e0f7fa, #b2ebf2); /* Gradient bleu pastel fluide */
+      position: relative;
+      width: 300px;
+      height: 150px;
+      background: linear-gradient(135deg, #e0f7fa, #b2ebf2); /* Dégradé bleu pastel */
       border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       transition: transform 0.3s ease, background 0.3s ease;
       cursor: pointer;
+      overflow: hidden;
     }
     .card:hover {
       transform: translateY(-5px);
-      background: linear-gradient(135deg, #b2ebf2, #80deea); /* Variation fluide au survol */
+      background: linear-gradient(135deg, #b2ebf2, #80deea);
     }
     .card i {
       font-size: 36px;
@@ -69,8 +70,103 @@
     .card span {
       font-size: 20px;
       font-weight: bold;
+      text-align: center;
     }
-    
+    /* Effet de survol avec image pour les 4 premières cartes */
+    /* On utilise un pseudo-élément ::before pour afficher l'image */
+    #main-page .card:nth-child(1)::before,
+    #main-page .card:nth-child(2)::before,
+    #main-page .card:nth-child(3)::before,
+    #main-page .card:nth-child(4)::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: left 0.5s ease, opacity 0.5s ease;
+    }
+    /* Images associées */
+    #main-page .card:nth-child(1)::before {
+      background-image: url('https://i.pinimg.com/736x/7a/af/94/7aaf9424a1ef93126b248bc46bfd0a43.jpg');
+    }
+    #main-page .card:nth-child(2)::before {
+      background-image: url('https://i.pinimg.com/736x/d0/83/2d/d0832de48334d3354af5f0c0aa615b5e.jpg');
+    }
+    #main-page .card:nth-child(3)::before {
+      background-image: url('https://i.pinimg.com/736x/3b/b8/40/3bb840d56f9a369aad2577153865666a.jpg');
+    }
+    #main-page .card:nth-child(4)::before {
+      background-image: url('https://i.pinimg.com/736x/28/71/a8/2871a82f8cc2fc5b90df3857c4dfd0a1.jpg');
+    }
+    /* Au survol, l'image glisse en douceur */
+    #main-page .card:nth-child(1):hover::before,
+    #main-page .card:nth-child(2):hover::before,
+    #main-page .card:nth-child(3):hover::before,
+    #main-page .card:nth-child(4):hover::before {
+      left: 0;
+      opacity: 1;
+    }
+    /* Sections pour chaque appareil (sous-cartes) */
+    .section {
+      display: none;
+      padding: 20px;
+      background-color: #f5f5f5;
+      border-radius: 10px;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .section header {
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+    .subcontainer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    /* Sous-cartes */
+    .subcard {
+      width: 300px;
+      height: 150px;
+      background-color: #E7B1A5;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    .subcard:hover {
+      transform: translateY(-5px);
+    }
+    /* Dans la section Endocrinien, la sous-carte Contrôle est un lien vers Drive */
+    .subcard.link {
+      text-decoration: none;
+    }
+    /* Bouton Retour */
+    .btn-retour {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    .btn-retour:hover {
+      background-color: #0056b3;
+    }
     /* Footer */
     footer {
       background-color: #007bff;
@@ -79,51 +175,130 @@
       padding: 10px;
       font-size: 14px;
     }
-    
-    /* Adaptabilité (responsive) */
-    @media (max-width: 768px) {
-      .card {
-        width: 90%;
-        height: 130px;
-      }
-    }
   </style>
 </head>
 <body>
   <header>Deuxième année de médecine, Algérie, Ouargla</header>
   
-  <div class="container">
-    <div class="card">
+  <!-- PAGE PRINCIPALE -->
+  <div id="main-page">
+    <!-- Chaque carte représente un appareil. Cliquez pour ouvrir sa section -->
+    <div class="card" onclick="showSection('cardio')">
       <i class="fa-solid fa-heart-pulse"></i>
       <span>Appareil Cardio-vasculaire,<br>Respiratoire et Hématopoïétique</span>
     </div>
-    <div class="card">
+    <div class="card" onclick="showSection('digestif')">
       <i class="fa-solid fa-utensils"></i>
       <span>Appareil Digestif</span>
     </div>
-    <div class="card">
+    <div class="card" onclick="showSection('urinaire')">
       <i class="fa-solid fa-toilet"></i>
       <span>Appareil Urinaire</span>
     </div>
-    <div class="card">
+    <div class="card" onclick="showSection('endocrine')">
       <i class="fa-solid fa-dna"></i>
       <span>Appareil Endocrinien et Génital</span>
     </div>
-    <div class="card">
+    <div class="card" onclick="showSection('neurosensoriel')">
       <i class="fa-solid fa-brain"></i>
       <span>Appareil Neurosensoriel</span>
     </div>
-    <div class="card">
+    <div class="card" onclick="showSection('genetique')">
       <i class="fa-solid fa-flask"></i>
       <span>Génétique</span>
     </div>
   </div>
   
+  <!-- Sections pour chaque appareil avec sous-cartes -->
+  <!-- Section Cardio -->
+  <div id="cardio" class="section">
+    <header>Appareil Cardio-vasculaire, Respiratoire et Hématopoïétique</header>
+    <div class="subcontainer">
+      <div class="subcard">Contrôle</div>
+      <div class="subcard">QCS</div>
+      <div class="subcard">TD Anatomie et Histologie</div>
+      <div class="subcard">Autres Sources</div>
+    </div>
+    <button class="btn-retour" onclick="showMain()">Retour</button>
+  </div>
+  
+  <!-- Section Digestif -->
+  <div id="digestif" class="section">
+    <header>Appareil Digestif</header>
+    <div class="subcontainer">
+      <div class="subcard">Contrôle</div>
+      <div class="subcard">QCS</div>
+      <div class="subcard">TD Anatomie et Histologie</div>
+      <div class="subcard">Autres Sources</div>
+    </div>
+    <button class="btn-retour" onclick="showMain()">Retour</button>
+  </div>
+  
+  <!-- Section Urinaire -->
+  <div id="urinaire" class="section">
+    <header>Appareil Urinaire</header>
+    <div class="subcontainer">
+      <div class="subcard">Contrôle</div>
+      <div class="subcard">QCS</div>
+      <div class="subcard">TD Anatomie et Histologie</div>
+      <div class="subcard">Autres Sources</div>
+    </div>
+    <button class="btn-retour" onclick="showMain()">Retour</button>
+  </div>
+  
+  <!-- Section Endocrinien -->
+  <div id="endocrine" class="section">
+    <header>Appareil Endocrinien et Génital</header>
+    <div class="subcontainer">
+      <a href="https://drive.google.com/file/d/1Wen-DPFiiE699USZLME0b2zGVHhiO9YB/view?usp=sharing" class="subcard link">Contrôle</a>
+      <div class="subcard">QCS</div>
+      <div class="subcard">TD Anatomie et Histologie</div>
+      <div class="subcard">Autres Sources</div>
+    </div>
+    <button class="btn-retour" onclick="showMain()">Retour</button>
+  </div>
+  
+  <!-- Section Neurosensoriel -->
+  <div id="neurosensoriel" class="section">
+    <header>Appareil Neurosensoriel</header>
+    <div class="subcontainer">
+      <div class="subcard">Contrôle</div>
+      <div class="subcard">QCS</div>
+      <div class="subcard">TD Anatomie et Histologie</div>
+      <div class="subcard">Autres Sources</div>
+    </div>
+    <button class="btn-retour" onclick="showMain()">Retour</button>
+  </div>
+  
+  <!-- Section Génétique -->
+  <div id="genetique" class="section">
+    <header>Génétique</header>
+    <div class="subcontainer">
+      <div class="subcard">Contrôle</div>
+      <div class="subcard">QCS</div>
+      <div class="subcard">TD Anatomie et Histologie</div>
+      <div class="subcard">Autres Sources</div>
+    </div>
+    <button class="btn-retour" onclick="showMain()">Retour</button>
+  </div>
+  
+  <!-- Scripts pour la navigation entre la page principale et les sections -->
+  <script>
+    function showSection(id) {
+      document.getElementById("main-page").style.display = "none";
+      document.querySelectorAll(".section").forEach(sec => sec.style.display = "none");
+      document.getElementById(id).style.display = "block";
+    }
+    
+    function showMain() {
+      document.querySelectorAll(".section").forEach(sec => sec.style.display = "none");
+      document.getElementById("main-page").style.display = "flex";
+    }
+  </script>
+  
   <footer>
     &copy; 2025 Médecine Express | Tous droits réservés | Contact : contact@medecine.com
   </footer>
   
-  <!-- Script pour charger Font Awesome (si nécessaire) -->
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
