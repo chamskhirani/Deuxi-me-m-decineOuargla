@@ -23,13 +23,13 @@
       padding: 20px;
       font-size: 24px;
     }
-    /* Conteneur principal avec position relative et hauteur fixée pour animation */
+    /* Conteneur de la page principale : on fixe une hauteur suffisante pour contenir l'animation */
     #main-page {
       position: relative;
       width: 100%;
       height: 500px;
     }
-    /* Les cartes de la page principale */
+    /* Style des cartes */
     .box {
       position: absolute;
       width: 250px;
@@ -38,7 +38,7 @@
       align-items: center;
       justify-content: center;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       cursor: pointer;
       color: white;
       font-weight: bold;
@@ -46,25 +46,14 @@
       font-size: 18px;
       background: linear-gradient(135deg, #FFD1DC, #E6A4B4, #C88EA7);
       overflow: hidden;
-      transition: transform 1s ease, top 1s ease, left 1s ease, opacity 1s ease;
-      opacity: 0;
+      transition: top 1s ease, left 1s ease, transform 1s ease, opacity 1s ease;
+      opacity: 1;
     }
     .box:hover {
       transform: scale(1.05);
     }
-    /* Pour chaque boîte de la page principale, on définit son attribut final (via data-*) :
-       Les positions choisies ici correspondent à une grille 2x3. -->
-    /* Exemple de données (les valeurs sont en pourcentage par rapport au conteneur) :
-         - Boîte 1 : top:10%, left:10%
-         - Boîte 2 : top:10%, left:40%
-         - Boîte 3 : top:10%, left:70%
-         - Boîte 4 : top:60%, left:10%
-         - Boîte 5 : top:60%, left:40%
-         - Boîte 6 : top:60%, left:70%
-    */
     
-    /* Effet de survol pour afficher l'image sur certaines boîtes */
-    /* On applique cet effet aux 4 premières boîtes */
+    /* Pseudo-éléments pour effet image survolée pour les 4 premières boîtes */
     #main-page .box:nth-child(1)::before,
     #main-page .box:nth-child(2)::before,
     #main-page .box:nth-child(3)::before,
@@ -81,7 +70,7 @@
       transform: translateX(-100%);
       transition: opacity 0.5s ease, transform 0.5s ease;
     }
-    /* Images selon les appareils */
+    /* Images attribuées aux 4 premières boîtes */
     #main-page .box:nth-child(1)::before {
       background-image: url('https://i.pinimg.com/736x/7a/af/94/7aaf9424a1ef93126b248bc46bfd0a43.jpg');
     }
@@ -113,13 +102,7 @@
       }
     }
     
-    /* Sections pour chaque appareil (mise en page en flex, sans animation de dispersion) */
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 20px;
-    }
+    /* Sections pour chaque appareil */
     .section {
       display: none;
       background-color: #f5f5f5;
@@ -135,7 +118,7 @@
       align-items: center;
       justify-content: center;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       cursor: pointer;
       transition: transform 0.2s;
       color: white;
@@ -148,7 +131,6 @@
     .box-small:hover {
       transform: scale(1.05);
     }
-    
     .btn-retour {
       margin-top: 20px;
       padding: 10px 20px;
@@ -164,7 +146,7 @@
       background-color: #B07C6F;
     }
     
-    /* Animation de fade (pour transitions entre sections) */
+    /* Pour les transitions entre sections */
     .fade {
       opacity: 0;
       transition: opacity 0.5s ease-in-out;
@@ -177,24 +159,25 @@
 <body>
   <header>Deuxième année de médecine, Algérie, Ouargla</header>
   
-  <!-- PAGE PRINCIPALE : Les cartes sont initialement superposées au centre -->
+  <!-- PAGE PRINCIPALE : Les cartes sont initialement empilées au centre -->
   <div id="main-page" class="fade visible">
-    <div class="box stacked" data-final-top="10%" data-final-left="10%" onclick="showSection('cardio')">
+    <!-- Chaque boîte contient des data-attributes pour sa position finale -->
+    <div class="box" data-final-top="10%" data-final-left="10%" onclick="showSection('cardio')">
       Appareil Cardio-vasculaire, Respiratoire et Hématopoïétique
     </div>
-    <div class="box stacked" data-final-top="10%" data-final-left="40%" onclick="showSection('digestif')">
+    <div class="box" data-final-top="10%" data-final-left="40%" onclick="showSection('digestif')">
       Appareil Digestif
     </div>
-    <div class="box stacked" data-final-top="10%" data-final-left="70%" onclick="showSection('urinaire')">
+    <div class="box" data-final-top="10%" data-final-left="70%" onclick="showSection('urinaire')">
       Appareil Urinaire
     </div>
-    <div class="box stacked" data-final-top="60%" data-final-left="10%" onclick="showSection('endocrine')">
+    <div class="box" data-final-top="60%" data-final-left="10%" onclick="showSection('endocrine')">
       Appareil Endocrinien et Génital
     </div>
-    <div class="box stacked" data-final-top="60%" data-final-left="40%" onclick="showSection('neurosensoriel')">
+    <div class="box" data-final-top="60%" data-final-left="40%" onclick="showSection('neurosensoriel')">
       Appareil Neurosensoriel
     </div>
-    <div class="box stacked" data-final-top="60%" data-final-left="70%" onclick="showSection('genetique')">
+    <div class="box" data-final-top="60%" data-final-left="70%" onclick="showSection('genetique')">
       Génétique
     </div>
   </div>
@@ -269,15 +252,21 @@
   </div>
   
   <script>
-    // Animation de dispersion des boîtes de la page principale
+    // Au chargement, toutes les boîtes de #main-page sont empilées au centre,
+    // puis s'animent vers leur position finale définie par data-final-top et data-final-left.
     window.addEventListener('load', () => {
       const boxes = document.querySelectorAll('#main-page .box');
       boxes.forEach((box, index) => {
-        // Après un petit délai, appliquer les positions finales indiquées dans les data-attributes
+        // Position initiale : au centre du conteneur (50%/50% avec translation négative pour centrer)
+        box.style.top = "50%";
+        box.style.left = "50%";
+        box.style.transform = "translate(-50%, -50%)";
+        // Appliquer un délai pour que les cartes se dispersent de façon successive
         setTimeout(() => {
-          box.style.top = box.dataset.finalTop;
-          box.style.left = box.dataset.finalLeft;
-          box.style.opacity = 1;
+          box.style.top = box.getAttribute('data-final-top');
+          box.style.left = box.getAttribute('data-final-left');
+          // On retire la translation pour que la position finale soit exacte
+          box.style.transform = "translate(0, 0)";
         }, 200 * index);
       });
     });
@@ -303,3 +292,4 @@
   
 </body>
 </html>
+
