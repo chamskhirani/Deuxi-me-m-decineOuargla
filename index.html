@@ -48,12 +48,12 @@
       width: 300px;
       height: 150px;
       background: linear-gradient(135deg, #e0f7fa, #b2ebf2); /* Dégradé bleu pastel */
-      border-radius: 50px; /* Coins très arrondis pour la carte */
+      border-radius: 15px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       transition: transform 0.3s ease, background 0.3s ease;
       cursor: pointer;
       overflow: hidden;
@@ -67,18 +67,10 @@
       margin-bottom: 10px;
       color: #007bff;
     }
-    /* Nouvel élément pour le titre dans la carte */
-    .card-title {
-      background-color: #fff;  /* Fond blanc */
-      color: #000;             /* Texte en noir */
-      padding: 5px 10px;
-      font-size: 16px;
+    .card span {
+      font-size: 20px;
       font-weight: bold;
-      border: none;
-      border-radius: 0;        /* Sans angles */
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
       text-align: center;
-      max-width: 90%;
     }
     /* Effet de survol avec image pour les 4 premières cartes */
     #main-page .card:nth-child(1)::before,
@@ -122,13 +114,12 @@
       display: none;
       padding: 20px;
       background-color: #f5f5f5;
-      border-radius: 30px; /* Arrondi élégant pour la section */
+      border-radius: 10px;
       transition: opacity 0.5s ease-in-out;
-      margin: 20px;
     }
     .section header {
-      font-size: 18px; /* Taille réduite pour un look minimal */
-      margin-bottom: 10px;
+      font-size: 22px;
+      margin-bottom: 20px;
       color: #007bff;
     }
     .subcontainer {
@@ -137,19 +128,19 @@
       justify-content: center;
       gap: 20px;
     }
-    /* Les sous-cartes adoptent le même dégradé fluide que les cartes principales */
+    /* Les sous-cartes adoptent désormais le même dégradé fluide que les cartes principales */
     .subcard {
       width: 300px;
       height: 150px;
       background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
-      border-radius: 50px; /* Coins très arrondis */
+      border-radius: 15px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       display: flex;
       justify-content: center;
       align-items: center;
       font-size: 20px;
       font-weight: bold;
-      color: #333; /* Texte foncé pour la lisibilité */
+      color: #333; /* Texte en couleur foncée pour une bonne lisibilité */
       transition: transform 0.3s ease;
       cursor: pointer;
     }
@@ -169,7 +160,7 @@
       border: none;
       background-color: #007bff;
       color: white;
-      border-radius: 30px; /* Bouton avec coins arrondis */
+      border-radius: 5px;
       transition: background 0.3s;
     }
     .btn-retour:hover {
@@ -182,7 +173,7 @@
       text-align: center;
       padding: 10px;
       font-size: 14px;
-      margin: 0; /* Suppression de l'espace supplémentaire */
+      margin: 0; /* Suppression de l'espace supplémentaire en bas */
     }
   </style>
 </head>
@@ -194,34 +185,34 @@
     <!-- Chaque carte représente un appareil. Cliquez pour ouvrir sa section -->
     <div class="card" onclick="showSection('cardio')">
       <i class="fa-solid fa-heart-pulse"></i>
-      <div class="card-title">Appareil Cardio-vasculaire,<br>Respiratoire et Hématopoïétique</div>
+      <span>Appareil Cardio-vasculaire,<br>Respiratoire et Hématopoïétique</span>
     </div>
     <div class="card" onclick="showSection('digestif')">
       <i class="fa-solid fa-utensils"></i>
-      <div class="card-title">Appareil Digestif</div>
+      <span>Appareil Digestif</span>
     </div>
     <div class="card" onclick="showSection('urinaire')">
       <i class="fa-solid fa-toilet"></i>
-      <div class="card-title">Appareil Urinaire</div>
+      <span>Appareil Urinaire</span>
     </div>
     <div class="card" onclick="showSection('endocrine')">
       <i class="fa-solid fa-dna"></i>
-      <div class="card-title">Appareil Endocrinien et Génital</div>
+      <span>Appareil Endocrinien et Génital</span>
     </div>
     <div class="card" onclick="showSection('neurosensoriel')">
       <i class="fa-solid fa-brain"></i>
-      <div class="card-title">Appareil Neurosensoriel</div>
+      <span>Appareil Neurosensoriel</span>
     </div>
     <div class="card" onclick="showSection('genetique')">
       <i class="fa-solid fa-flask"></i>
-      <div class="card-title">Génétique</div>
+      <span>Génétique</span>
     </div>
   </div>
   
   <!-- SECTIONS POUR CHAQUE APPAREIL -->
   <!-- Section Cardio -->
   <div id="cardio" class="section">
-    <header>Cardio-vasculaire, Respiratoire et Hématopoïétique</header>
+    <header>Appareil Cardio-vasculaire, Respiratoire et Hématopoïétique</header>
     <div class="subcontainer">
       <div class="subcard">Contrôle</div>
       <div class="subcard">QCS</div>
@@ -257,7 +248,7 @@
   
   <!-- Section Endocrinien -->
   <div id="endocrine" class="section">
-    <header>Endocrinien et Génital</header>
+    <header>Appareil Endocrinien et Génital</header>
     <div class="subcontainer">
       <a href="https://drive.google.com/file/d/1Wen-DPFiiE699USZLME0b2zGVHhiO9YB/view?usp=sharing" class="subcard link">
         Contrôle
