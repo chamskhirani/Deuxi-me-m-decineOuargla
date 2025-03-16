@@ -20,7 +20,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Amiri', sans-serif;
-      background-color: #f0f8ff; /* Fond clair apaisant */
+      background-color: #f0f8ff; /* Fond apaisant */
       color: #333;
     }
     header {
@@ -33,7 +33,7 @@
       top: 0;
       z-index: 1000;
     }
-    /* Conteneur principal (page principale) */
+    /* Conteneur principal pour les cartes */
     #main-page {
       display: flex;
       flex-wrap: wrap;
@@ -73,7 +73,6 @@
       text-align: center;
     }
     /* Effet de survol avec image pour les 4 premières cartes */
-    /* On utilise un pseudo-élément ::before pour afficher l'image */
     #main-page .card:nth-child(1)::before,
     #main-page .card:nth-child(2)::before,
     #main-page .card:nth-child(3)::before,
@@ -89,7 +88,7 @@
       opacity: 0;
       transition: left 0.5s ease, opacity 0.5s ease;
     }
-    /* Images associées */
+    /* Images associées aux 4 premières cartes */
     #main-page .card:nth-child(1)::before {
       background-image: url('https://i.pinimg.com/736x/7a/af/94/7aaf9424a1ef93126b248bc46bfd0a43.jpg');
     }
@@ -102,7 +101,6 @@
     #main-page .card:nth-child(4)::before {
       background-image: url('https://i.pinimg.com/736x/28/71/a8/2871a82f8cc2fc5b90df3857c4dfd0a1.jpg');
     }
-    /* Au survol, l'image glisse en douceur */
     #main-page .card:nth-child(1):hover::before,
     #main-page .card:nth-child(2):hover::before,
     #main-page .card:nth-child(3):hover::before,
@@ -129,11 +127,11 @@
       justify-content: center;
       gap: 20px;
     }
-    /* Sous-cartes */
+    /* Les sous-cartes adoptent désormais le même dégradé que les cartes principales */
     .subcard {
       width: 300px;
       height: 150px;
-      background-color: #E7B1A5;
+      background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
       border-radius: 15px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       display: flex;
@@ -174,6 +172,7 @@
       text-align: center;
       padding: 10px;
       font-size: 14px;
+      margin: 0; /* Correction de l'espace en bas */
     }
   </style>
 </head>
@@ -209,7 +208,7 @@
     </div>
   </div>
   
-  <!-- Sections pour chaque appareil avec sous-cartes -->
+  <!-- SECTIONS POUR CHAQUE APPAREIL -->
   <!-- Section Cardio -->
   <div id="cardio" class="section">
     <header>Appareil Cardio-vasculaire, Respiratoire et Hématopoïétique</header>
@@ -282,7 +281,7 @@
     <button class="btn-retour" onclick="showMain()">Retour</button>
   </div>
   
-  <!-- Scripts pour la navigation entre la page principale et les sections -->
+  <!-- Scripts pour la navigation -->
   <script>
     function showSection(id) {
       document.getElementById("main-page").style.display = "none";
