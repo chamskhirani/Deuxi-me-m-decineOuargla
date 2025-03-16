@@ -44,3 +44,97 @@
             font-size: 18px;
             background: linear-gradient(135deg, #FFD1DC, #E6A4B4, #C88EA7);
         }
+        .box:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Section cachée pour Appareil Endocrinien et Génital */
+        #endocrine-section {
+            display: none;
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .box-small {
+            padding: 20px;
+            margin: 10px;
+            width: 250px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px black;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .box-small:hover {
+            transform: scale(1.05);
+        }
+        .box1 { background-color: #E57373; } /* Rouge doux */
+        .box2 { background-color: #81C784; } /* Vert doux */
+        .box3 { background-color: #64B5F6; } /* Bleu doux */
+        .box4 { background-color: #BA68C8; } /* Violet doux */
+        
+        /* Bouton retour */
+        .btn-retour {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #D4A190;
+            color: white;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .btn-retour:hover {
+            background-color: #B07C6F;
+        }
+    </style>
+</head>
+<body>
+    <header>Deuxième année de médecine, Algérie, Ouargla</header>
+
+    <!-- PAGE PRINCIPALE -->
+    <div class="container" id="main-page">
+        <div class="box">Appareil Cardio-vasculaire, Respiratoire et Hématopoïétique</div>
+        <div class="box">Appareil Digestif</div>
+        <div class="box">Appareil Urinaire</div>
+        <div class="box" onclick="showEndocrine()">Appareil Endocrinien et Génital</div>
+        <div class="box">Appareil Neurosensoriel</div>
+        <div class="box">Génétique</div>
+    </div>
+
+    <!-- PAGE "Appareil Endocrinien et Génital" -->
+    <div id="endocrine-section">
+        <header>Appareil Endocrinien et Génital</header>
+        <div class="container">
+            <a href="https://drive.google.com/file/d/1Wen-DPFiiE699USZLME0b2zGVHhiO9YB/view?usp=sharing" class="box-small box1">Contrôle</a>
+            <div class="box-small box2">QCS</div>
+            <div class="box-small box3">TD Anatomie et Histologie</div>
+            <div class="box-small box4">Autres Sources</div>
+        </div>
+        <button onclick="showMain()" class="btn-retour">Retour</button>
+    </div>
+
+    <script>
+        function showEndocrine() {
+            document.getElementById('main-page').style.display = 'none';
+            document.getElementById('endocrine-section').style.display = 'block';
+        }
+
+        function showMain() {
+            document.getElementById('main-page').style.display = 'flex';
+            document.getElementById('endocrine-section').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
