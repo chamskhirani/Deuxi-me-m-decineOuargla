@@ -48,12 +48,12 @@
       width: 300px;
       height: 150px;
       background: linear-gradient(135deg, #e0f7fa, #b2ebf2); /* Dégradé bleu pastel */
-      border-radius: 50px; /* Coins très arrondis */
+      border-radius: 50px; /* Coins très arrondis pour la carte */
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       transition: transform 0.3s ease, background 0.3s ease;
       cursor: pointer;
       overflow: hidden;
@@ -67,10 +67,18 @@
       margin-bottom: 10px;
       color: #007bff;
     }
-    .card span {
-      font-size: 20px;
+    /* Nouvel élément pour le titre dans la carte */
+    .card-title {
+      background-color: #fff;  /* Fond blanc */
+      color: #000;             /* Texte en noir */
+      padding: 5px 10px;
+      font-size: 16px;
       font-weight: bold;
+      border: none;
+      border-radius: 0;        /* Sans angles */
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
       text-align: center;
+      max-width: 90%;
     }
     /* Effet de survol avec image pour les 4 premières cartes */
     #main-page .card:nth-child(1)::before,
@@ -186,27 +194,27 @@
     <!-- Chaque carte représente un appareil. Cliquez pour ouvrir sa section -->
     <div class="card" onclick="showSection('cardio')">
       <i class="fa-solid fa-heart-pulse"></i>
-      <span>Appareil Cardio-vasculaire,<br>Respiratoire et Hématopoïétique</span>
+      <div class="card-title">Appareil Cardio-vasculaire,<br>Respiratoire et Hématopoïétique</div>
     </div>
     <div class="card" onclick="showSection('digestif')">
       <i class="fa-solid fa-utensils"></i>
-      <span>Appareil Digestif</span>
+      <div class="card-title">Appareil Digestif</div>
     </div>
     <div class="card" onclick="showSection('urinaire')">
       <i class="fa-solid fa-toilet"></i>
-      <span>Appareil Urinaire</span>
+      <div class="card-title">Appareil Urinaire</div>
     </div>
     <div class="card" onclick="showSection('endocrine')">
       <i class="fa-solid fa-dna"></i>
-      <span>Appareil Endocrinien et Génital</span>
+      <div class="card-title">Appareil Endocrinien et Génital</div>
     </div>
     <div class="card" onclick="showSection('neurosensoriel')">
       <i class="fa-solid fa-brain"></i>
-      <span>Appareil Neurosensoriel</span>
+      <div class="card-title">Appareil Neurosensoriel</div>
     </div>
     <div class="card" onclick="showSection('genetique')">
       <i class="fa-solid fa-flask"></i>
-      <span>Génétique</span>
+      <div class="card-title">Génétique</div>
     </div>
   </div>
   
