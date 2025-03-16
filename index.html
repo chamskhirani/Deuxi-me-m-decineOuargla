@@ -310,4 +310,160 @@
     Deuxième année de médecine, Algérie, Ouargla
   </header>
 
-  <!-- PAGE
+  <!-- PAGE PRINCIPALE : cartes empilées au centre, puis dispersion -->
+  <div id="main-page" class="fade visible">
+    <!-- data-final-top / data-final-left : positions finales en % -->
+    <div class="box" data-final-top="10%" data-final-left="10%" onclick="showSection('cardio')">
+      <i class="fa-solid fa-heart-pulse"></i>
+      Appareil Cardio-vasculaire, Respiratoire et Hématopoïétique
+    </div>
+    <div class="box" data-final-top="10%" data-final-left="40%" onclick="showSection('digestif')">
+      <i class="fa-solid fa-stomach"></i>
+      Appareil Digestif
+    </div>
+    <div class="box" data-final-top="10%" data-final-left="70%" onclick="showSection('urinaire')">
+      <i class="fa-solid fa-kidneys"></i>
+      Appareil Urinaire
+    </div>
+    <div class="box" data-final-top="60%" data-final-left="10%" onclick="showSection('endocrine')">
+      <i class="fa-solid fa-user-doctor"></i>
+      Appareil Endocrinien et Génital
+    </div>
+    <div class="box" data-final-top="60%" data-final-left="40%" onclick="showSection('neurosensoriel')">
+      <i class="fa-solid fa-brain"></i>
+      Appareil Neurosensoriel
+    </div>
+    <div class="box" data-final-top="60%" data-final-left="70%" onclick="showSection('genetique')">
+      <i class="fa-solid fa-dna"></i>
+      Génétique
+    </div>
+  </div>
+
+  <!-- SECTIONS DÉTAILLÉES -->
+  <div id="cardio" class="section fade">
+    <header>Appareil Cardio-vasculaire, Respiratoire et Hématopoïétique</header>
+    <div class="container-boxes">
+      <div class="box-small">Contrôle</div>
+      <div class="box-small">QCS</div>
+      <div class="box-small">TD Anatomie et Histologie</div>
+      <div class="box-small">Autres Sources</div>
+    </div>
+    <button onclick="showMain()" class="btn-retour">Retour</button>
+  </div>
+
+  <div id="digestif" class="section fade">
+    <header>Appareil Digestif</header>
+    <div class="container-boxes">
+      <div class="box-small">Contrôle</div>
+      <div class="box-small">QCS</div>
+      <div class="box-small">TD Anatomie et Histologie</div>
+      <div class="box-small">Autres Sources</div>
+    </div>
+    <button onclick="showMain()" class="btn-retour">Retour</button>
+  </div>
+
+  <div id="urinaire" class="section fade">
+    <header>Appareil Urinaire</header>
+    <div class="container-boxes">
+      <div class="box-small">Contrôle</div>
+      <div class="box-small">QCS</div>
+      <div class="box-small">TD Anatomie et Histologie</div>
+      <div class="box-small">Autres Sources</div>
+    </div>
+    <button onclick="showMain()" class="btn-retour">Retour</button>
+  </div>
+
+  <div id="endocrine" class="section fade">
+    <header>Appareil Endocrinien et Génital</header>
+    <div class="container-boxes">
+      <a
+        href="https://drive.google.com/file/d/1Wen-DPFiiE699USZLME0b2zGVHhiO9YB/view?usp=sharing"
+        class="box-small"
+      >
+        Contrôle
+      </a>
+      <div class="box-small">QCS</div>
+      <div class="box-small">TD Anatomie et Histologie</div>
+      <div class="box-small">Autres Sources</div>
+    </div>
+    <button onclick="showMain()" class="btn-retour">Retour</button>
+  </div>
+
+  <div id="neurosensoriel" class="section fade">
+    <header>Appareil Neurosensoriel</header>
+    <div class="container-boxes">
+      <div class="box-small">Contrôle</div>
+      <div class="box-small">QCS</div>
+      <div class="box-small">TD Anatomie et Histologie</div>
+      <div class="box-small">Autres Sources</div>
+    </div>
+    <button onclick="showMain()" class="btn-retour">Retour</button>
+  </div>
+
+  <div id="genetique" class="section fade">
+    <header>Génétique</header>
+    <div class="container-boxes">
+      <div class="box-small">Contrôle</div>
+      <div class="box-small">QCS</div>
+      <div class="box-small">TD Anatomie et Histologie</div>
+      <div class="box-small">Autres Sources</div>
+    </div>
+    <button onclick="showMain()" class="btn-retour">Retour</button>
+  </div>
+
+  <!-- PIED DE PAGE -->
+  <footer>
+    <p>&copy; 2025 MedExpress. Tous droits réservés.</p>
+    <div class="social-links">
+      <i class="fab fa-facebook-f"></i>
+      <i class="fab fa-twitter"></i>
+      <i class="fab fa-instagram"></i>
+    </div>
+    <p>
+      <a href="https://www.nngroup.com/articles/" target="_blank">Références UX</a> |
+      <a href="https://material.io/design" target="_blank">Material Design</a> |
+      <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank">Accessibilité WCAG</a>
+    </p>
+  </footer>
+
+  <script>
+    // Au chargement, on empile les cartes au centre, puis on les disperse
+    window.addEventListener("load", () => {
+      const boxes = document.querySelectorAll("#main-page .box");
+      boxes.forEach((box, index) => {
+        // Position initiale : centre
+        box.style.top = "50%";
+        box.style.left = "50%";
+        box.style.transform = "translate(-50%, -50%)";
+
+        // Après un court délai, on les déplace vers leur position finale
+        setTimeout(() => {
+          box.style.top = box.getAttribute("data-final-top");
+          box.style.left = box.getAttribute("data-final-left");
+          box.style.transform = "translate(0, 0)";
+        }, 200 * index);
+      });
+    });
+
+    // Navigation vers une section
+    function showSection(id) {
+      document.getElementById("main-page").classList.remove("visible");
+      setTimeout(() => {
+        document.getElementById("main-page").style.display = "none";
+        document.getElementById(id).style.display = "block";
+        setTimeout(() => document.getElementById(id).classList.add("visible"), 50);
+      }, 500);
+    }
+
+    // Retour à la page principale
+    function showMain() {
+      document.querySelectorAll(".section").forEach((sec) => sec.classList.remove("visible"));
+      setTimeout(() => {
+        document.querySelectorAll(".section").forEach((sec) => (sec.style.display = "none"));
+        document.getElementById("main-page").style.display = "block";
+        setTimeout(() => document.getElementById("main-page").classList.add("visible"), 50);
+      }, 500);
+    }
+  </script>
+</body>
+</html>
