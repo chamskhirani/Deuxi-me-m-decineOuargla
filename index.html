@@ -1,161 +1,151 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deuxième année de médecine, Algérie, Ouargla</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="https://i.pinimg.com/736x/7f/15/0c/7f150cb7f3d03ae35b366b9ace40ac1a.jpg">
-    <style>
-        body {
-            font-family: 'Amiri', serif;
-            text-align: center;
-            background: linear-gradient(to bottom, #E7B1A5, #F5D7DC);
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            background-color: black;
-            color: white;
-            padding: 15px;
-            font-size: 22px;
-            text-align: center;
-            border-radius: 15px;
-            width: 80%;
-            margin: 20px auto;
-        }
-
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 20px;
-        }
-
-        .box {
-            padding: 20px;
-            margin: 15px;
-            width: 220px;
-            height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
-            position: relative;
-            background-size: cover;
-            background-position: center;
-            color: white;
-            font-weight: bold;
-            text-shadow: 1px 1px 3px black;
-            overflow: hidden;
-        }
-
-        .box:hover {
-            transform: scale(1.08);
-        }
-
-        /* Images pour chaque unité */
-        .box:nth-child(1) { background-image: url('https://i.pinimg.com/736x/7a/af/94/7aaf9424a1ef93126b248bc46bfd0a43.jpg'); }
-        .box:nth-child(2) { background-image: url('https://i.pinimg.com/736x/d0/83/2d/d0832de48334d3354af5f0c0aa615b5e.jpg'); }
-        .box:nth-child(3) { background-image: url('https://i.pinimg.com/736x/3b/b8/40/3bb840d56f9a369aad2577153865666a.jpg'); }
-        .box:nth-child(4) { background-image: url('https://i.pinimg.com/736x/28/71/a8/2871a82f8cc2fc5b90df3857c4dfd0a1.jpg'); }
-
-        /* Sous-boîtes */
-        .sub-container {
-            display: none;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 15px;
-        }
-
-        .sub-box {
-            width: 180px;
-            height: 100px;
-            margin: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #E7B1A5;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out;
-        }
-
-        .sub-box:hover {
-            transform: scale(1.05);
-        }
-
-        /* Animation d'apparition en fondu */
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deuxième année de médecine, Algérie, Ouargla</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="https://i.pinimg.com/736x/7f/15/0c/7f150cb7f3d03ae35b366b9ace40ac1a.jpg">
+  <style>
+    body {
+      font-family: 'Amiri', serif;
+      text-align: center;
+      background: linear-gradient(to bottom, #E7B1A5, #F5D7DC);
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: black;
+      color: white;
+      padding: 15px;
+      font-size: 22px;
+      text-align: center;
+      border-radius: 15px;
+      width: 80%;
+      margin: 20px auto;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 20px;
+    }
+    .box {
+      padding: 20px;
+      margin: 15px;
+      width: 220px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      color: white;
+      font-weight: bold;
+      text-shadow: 1px 1px 3px black;
+      overflow: hidden;
+    }
+    .box:hover {
+      transform: scale(1.08);
+    }
+    /* Images pour chaque unité */
+    .box:nth-child(1) { background-image: url('https://i.pinimg.com/736x/7a/af/94/7aaf9424a1ef93126b248bc46bfd0a43.jpg'); }
+    .box:nth-child(2) { background-image: url('https://i.pinimg.com/736x/d0/83/2d/d0832de48334d3354af5f0c0aa615b5e.jpg'); }
+    .box:nth-child(3) { background-image: url('https://i.pinimg.com/736x/3b/b8/40/3bb840d56f9a369aad2577153865666a.jpg'); }
+    .box:nth-child(4) { background-image: url('https://i.pinimg.com/736x/28/71/a8/2871a82f8cc2fc5b90df3857c4dfd0a1.jpg'); }
+    
+    /* Sous-boîtes */
+    .sub-container {
+      display: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 15px;
+    }
+    .sub-box {
+      width: 180px;
+      height: 100px;
+      margin: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #ADD8E6; /* bleu clair */
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+    .sub-box:hover {
+      transform: scale(1.05);
+    }
+    /* Animation d'apparition en fondu */
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
 
-    <header>Deuxième année de médecine, Algérie, Ouargla</header>
+  <header>Deuxième année de médecine, Algérie, Ouargla</header>
 
-    <div class="container">
-        <div class="box" onclick="toggleSubMenu('cardio')">Appareil Cardio-vasculaire, Respiratoire et Hématopoïétique</div>
-        <div class="box" onclick="toggleSubMenu('digestif')">Appareil Digestif</div>
-        <div class="box" onclick="toggleSubMenu('urinaire')">Appareil Urinaire</div>
-        <div class="box" onclick="toggleSubMenu('endocrinien')">Appareil Endocrinien et Génital</div>
-    </div>
+  <div class="container">
+    <div class="box" onclick="toggleSubMenu('cardio')">Appareil Cardio-vasculaire, Respiratoire et Hématopoïétique</div>
+    <div class="box" onclick="toggleSubMenu('digestif')">Appareil Digestif</div>
+    <div class="box" onclick="toggleSubMenu('urinaire')">Appareil Urinaire</div>
+    <div class="box" onclick="toggleSubMenu('endocrinien')">Appareil Endocrinien et Génital</div>
+  </div>
 
-    <!-- Sous-menus -->
-    <div id="cardio" class="sub-container">
-        <div class="sub-box" onclick="window.open('https://drive.google.com/file/d/1Wen-DPFiiE699USZLME0b2zGVHhiO9YB/view', '_blank')">Contrôle</div>
-        <div class="sub-box">QCS</div>
-        <div class="sub-box">Anatomie et Histologie</div>
-        <div class="sub-box">Autres Sources</div>
-    </div>
+  <!-- Sous-menus -->
+  <div id="cardio" class="sub-container">
+    <div class="sub-box">Contrôle</div>
+    <div class="sub-box">QCS</div>
+    <div class="sub-box">Anatomie et Histologie</div>
+    <div class="sub-box">Autres Sources</div>
+  </div>
 
-    <div id="digestif" class="sub-container">
-        <div class="sub-box">Contrôle</div>
-        <div class="sub-box">QCS</div>
-        <div class="sub-box">Anatomie et Histologie</div>
-        <div class="sub-box">Autres Sources</div>
-    </div>
+  <div id="digestif" class="sub-container">
+    <div class="sub-box">Contrôle</div>
+    <div class="sub-box">QCS</div>
+    <div class="sub-box">Anatomie et Histologie</div>
+    <div class="sub-box">Autres Sources</div>
+  </div>
 
-    <div id="urinaire" class="sub-container">
-        <div class="sub-box">Contrôle</div>
-        <div class="sub-box">QCS</div>
-        <div class="sub-box">Anatomie et Histologie</div>
-        <div class="sub-box">Autres Sources</div>
-    </div>
+  <div id="urinaire" class="sub-container">
+    <div class="sub-box">Contrôle</div>
+    <div class="sub-box">QCS</div>
+    <div class="sub-box">Anatomie et Histologie</div>
+    <div class="sub-box">Autres Sources</div>
+  </div>
 
-    <div id="endocrinien" class="sub-container">
-        <div class="sub-box">Contrôle</div>
-        <div class="sub-box">QCS</div>
-        <div class="sub-box">Anatomie et Histologie</div>
-        <div class="sub-box">Autres Sources</div>
-    </div>
+  <div id="endocrinien" class="sub-container">
+    <div class="sub-box">Contrôle</div>
+    <div class="sub-box">QCS</div>
+    <div class="sub-box">Anatomie et Histologie</div>
+    <div class="sub-box">Autres Sources</div>
+  </div>
 
-    <script>
-        function toggleSubMenu(id) {
-            let subMenus = document.querySelectorAll('.sub-container');
-            subMenus.forEach(menu => {
-                if (menu.id === id) {
-                    menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
-                    menu.classList.add('fade-in');
-                } else {
-                    menu.style.display = "none";
-                }
-            });
+  <script>
+    function toggleSubMenu(id) {
+      let subMenus = document.querySelectorAll('.sub-container');
+      subMenus.forEach(menu => {
+        if (menu.id === id) {
+          menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+          menu.classList.add('fade-in');
+        } else {
+          menu.style.display = "none";
         }
-    </script>
+      });
+    }
+  </script>
 
 </body>
 </html>
