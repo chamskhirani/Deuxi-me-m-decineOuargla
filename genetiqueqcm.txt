@@ -1,0 +1,995 @@
+ <div class="mt-4 bg-white rounded-full h-4 shadow-inner overflow-hidden">
+            <div id="progress-bar" class="progress-bar h-full bg-indigo-600 rounded-full" style="width: 0%"></div>
+        </div>
+        <div class="flex justify-between mt-2">
+            <span id="progress-text" class="text-sm text-gray-600">Question 0/50</span>
+            <span id="score-text" class="text-sm text-gray-600">Score: 0/0</span>
+        </div>
+    </header>
+
+    <div id="quiz-container" class="space-y-8">
+        <!-- Questions will be inserted here -->
+    </div>
+
+    <div class="mt-8 flex justify-between">
+        <button id="prev-btn" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition disabled:opacity-50" disabled>Précédent</button>
+        <button id="check-btn" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Vérifier</button>
+        <button id="next-btn" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Suivant</button>
+    </div>
+
+    <div id="results" class="mt-8 p-6 bg-white rounded-xl shadow-lg hidden">
+        <h2 class="text-2xl font-bold text-indigo-800 mb-4">Résultats</h2>
+        <p class="text-xl mb-4">Votre score final: <span id="final-score" class="font-bold text-indigo-600">0/50</span></p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <h3 class="text-lg font-semibold mb-2">Points forts:</h3>
+                <ul id="strengths" class="list-disc pl-5 text-gray-700"></ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-2">Points à améliorer:</h3>
+                <ul id="weaknesses" class="list-disc pl-5 text-gray-700"></ul>
+            </div>
+        </div>
+        <button id="restart-btn" class="mt-6 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Recommencer</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        {
+            id: 1,
+            title: "Transcription",
+            question: "Lors de la transcription chez les eucaryotes, quelle affirmation est FAUSSE concernant l'ARN polymérase II ?",
+            options: [
+                "Elle reconnaît directement la boîte TATA sans facteurs de transcription",
+                "Elle synthétise l'ARNm dans le sens 5' vers 3'",
+                "Elle nécessite des facteurs de transcription comme TFIID",
+                "Elle transcrit les gènes codant pour les protéines",
+                "Elle est active dans le noyau cellulaire"
+            ],
+            correctAnswer: 0,
+            explanation: "L'ARN polymérase II ne reconnaît pas directement la boîte TATA. Elle nécessite des facteurs de transcription, notamment TFIID qui se lie à la boîte TATA, puis d'autres facteurs (TFIIA, TFIIB, etc.) pour former le complexe de pré-initiation."
+        },
+        {
+            id: 2,
+            title: "Transcription",
+            question: "Quel élément n'est PAS impliqué dans la maturation de l'ARNm eucaryote ?",
+            options: [
+                "L'ajout d'une coiffe en 5'",
+                "L'épissage des introns",
+                "L'ajout d'une queue poly-A en 3'",
+                "La méthylation des bases cytosine",
+                "La reconnaissance des signaux de terminaison"
+            ],
+            correctAnswer: 3,
+            explanation: "La méthylation des bases cytosine est un processus épigénétique qui affecte l'ADN, pas l'ARNm. La maturation de l'ARNm eucaryote comprend l'ajout d'une coiffe en 5', l'épissage des introns et l'ajout d'une queue poly-A en 3'."
+        },
+        {
+            id: 3,
+            title: "Transcription",
+            question: "Quel phénomène est spécifique à la transcription chez les procaryotes mais PAS chez les eucaryotes ?",
+            options: [
+                "La synthèse de l'ARN dans le sens 5' vers 3'",
+                "La traduction qui commence avant la fin de la transcription",
+                "L'utilisation d'une ARN polymérase",
+                "La complémentarité des bases entre l'ADN et l'ARN",
+                "La nécessité d'un promoteur pour initier la transcription"
+            ],
+            correctAnswer: 1,
+            explanation: "Chez les procaryotes, la traduction peut commencer avant que la transcription ne soit terminée (traduction couplée à la transcription), car il n'y a pas de séparation entre noyau et cytoplasme. Chez les eucaryotes, la transcription a lieu dans le noyau et la traduction dans le cytoplasme, donc ces processus sont séparés spatialement et temporellement."
+        },
+        {
+            id: 4,
+            title: "Transcription",
+            question: "Dans la terminaison de la transcription chez les procaryotes, quel mécanisme est impliqué ?",
+            options: [
+                "La reconnaissance d'une séquence AAUAAA sur l'ARNm",
+                "L'intervention de la protéine Rho uniquement",
+                "La formation d'une structure en épingle à cheveux suivie d'une région riche en U",
+                "L'ajout d'une queue poly-A",
+                "La phosphorylation du domaine CTD de l'ARN polymérase"
+            ],
+            correctAnswer: 2,
+            explanation: "Chez les procaryotes, un des mécanismes de terminaison implique la formation d'une structure en épingle à cheveux sur l'ARNm suivie d'une région riche en U (signal UUUU). Cette structure déstabilise le complexe ARN polymérase-ADN-ARN, provoquant la dissociation. Il existe aussi un mécanisme dépendant de la protéine Rho, mais ce n'est pas le seul."
+        },
+        {
+            id: 5,
+            title: "Transcription",
+            question: "Quelle affirmation concernant la sous-unité σ de l'ARN polymérase procaryote est INCORRECTE ?",
+            options: [
+                "Elle se dissocie après l'initiation de la transcription",
+                "Elle reconnaît spécifiquement les séquences promotrices",
+                "Elle est nécessaire pour la formation du complexe ouvert",
+                "Elle catalyse la formation des liaisons phosphodiester",
+                "Elle fait partie de l'holoenzyme ARN polymérase"
+            ],
+            correctAnswer: 3,
+            explanation: "La sous-unité σ ne catalyse pas la formation des liaisons phosphodiester. Cette fonction catalytique est assurée par le cœur de l'ARN polymérase (sous-unités α, β, β'). La sous-unité σ est impliquée dans la reconnaissance du promoteur et l'initiation de la transcription, puis se dissocie après la synthèse d'environ 8 nucléotides."
+        },
+        {
+            id: 6,
+            title: "Code génétique",
+            question: "Concernant le code génétique, quelle affirmation est FAUSSE ?",
+            options: [
+                "Il est redondant car plusieurs codons peuvent coder pour un même acide aminé",
+                "Il est universel sans aucune exception dans tous les organismes vivants",
+                "Il comporte 64 codons possibles dont 3 codons stop",
+                "Le codon AUG code pour la méthionine et sert de codon d'initiation",
+                "La troisième base du codon est souvent moins contraignante (wobble)"
+            ],
+            correctAnswer: 1,
+            explanation: "Le code génétique n'est pas strictement universel. Il existe des exceptions, notamment dans l'ADN mitochondrial et chez certains organismes. Par exemple, chez certains procaryotes, le codon UGA code pour le tryptophane au lieu d'être un codon stop."
+        },
+        {
+            id: 7,
+            title: "Code génétique",
+            question: "Si une mutation change le codon UUU en UUC, quelle sera la conséquence la plus probable sur la protéine synthétisée ?",
+            options: [
+                "Substitution d'une phénylalanine par une leucine",
+                "Aucun changement d'acide aminé",
+                "Arrêt prématuré de la traduction",
+                "Décalage du cadre de lecture",
+                "Substitution d'une phénylalanine par une sérine"
+            ],
+            correctAnswer: 1,
+            explanation: "Les codons UUU et UUC codent tous deux pour la phénylalanine. C'est un exemple de la dégénérescence du code génétique. Cette mutation est dite 'silencieuse' car elle ne modifie pas l'acide aminé incorporé dans la protéine."
+        },
+        {
+            id: 8,
+            title: "Code génétique",
+            question: "Quelle caractéristique du code génétique explique qu'une mutation sur la troisième base d'un codon a souvent moins d'impact qu'une mutation sur la première base ?",
+            options: [
+                "La première base est toujours une purine",
+                "La troisième base n'est jamais transcrite en ARNm",
+                "Le phénomène de 'wobble' au niveau de la troisième position",
+                "La troisième base est toujours une pyrimidine",
+                "La première base détermine la charge de l'acide aminé"
+            ],
+            correctAnswer: 2,
+            explanation: "Le phénomène de 'wobble' permet un appariement moins strict au niveau de la troisième base du codon. Ainsi, un même ARNt peut reconnaître plusieurs codons qui diffèrent uniquement par leur troisième base, ce qui explique pourquoi une mutation à cette position a souvent moins d'impact sur la protéine finale."
+        },
+        {
+            id: 9,
+            title: "Code génétique",
+            question: "Un segment d'ADN a la séquence 5'-TACGCATGA-3'. Quelle sera la séquence d'acides aminés codée par le brin complémentaire transcrit ?",
+            options: [
+                "Tyrosine-Alanine-Stop",
+                "Méthionine-Histidine-Tyrosine",
+                "Sérine-Histidine-Tryptophane",
+                "Cystéine-Méthionine-Sérine",
+                "Aucune séquence, car ce n'est pas le brin codant"
+            ],
+            correctAnswer: 3,
+            explanation: "Le brin complémentaire de 5'-TACGCATGA-3' est 3'-ATGCGTACT-5'. Lors de la transcription, on obtient l'ARNm 5'-AUGCGUACU-3'. La traduction donne les acides aminés Méthionine (AUG) - Arginine (CGU) - Thréonine (ACU). La réponse correcte n'est donc pas présente parmi les options proposées, ce qui est un piège. La réponse D est incorrecte."
+        },
+        {
+            id: 10,
+            title: "Code génétique",
+            question: "Quelle affirmation concernant les codons stop est CORRECTE ?",
+            options: [
+                "Ils sont reconnus par des ARNt spécifiques",
+                "Ils sont au nombre de quatre (UAA, UAG, UGA, UGG)",
+                "Ils sont reconnus par des facteurs de terminaison",
+                "Ils codent pour des acides aminés rares",
+                "Ils sont toujours précédés d'un codon AUG"
+            ],
+            correctAnswer: 2,
+            explanation: "Les codons stop (UAA, UAG, UGA) ne sont pas reconnus par des ARNt mais par des facteurs de terminaison (RF1, RF2 chez les procaryotes, eRF1 chez les eucaryotes) qui provoquent la libération de la chaîne polypeptidique et la dissociation du ribosome."
+        },
+        {
+            id: 11,
+            title: "Traduction",
+            question: "Lors de l'élongation de la traduction, quelle enzyme catalyse la formation de la liaison peptidique ?",
+            options: [
+                "L'aminoacyl-ARNt synthétase",
+                "Le facteur d'élongation EF-Tu",
+                "La peptidyl transférase, une activité de l'ARNr 28S",
+                "L'ARN polymérase",
+                "La protéine ribosomale L16"
+            ],
+            correctAnswer: 2,
+            explanation: "La formation de la liaison peptidique est catalysée par la peptidyl transférase, qui est une activité enzymatique portée par l'ARN ribosomal (ARNr) et non par une protéine. C'est un exemple de ribozyme. Chez les eucaryotes, cette activité est associée à l'ARNr 28S de la grande sous-unité ribosomale."
+        },
+        {
+            id: 12,
+            title: "Traduction",
+            question: "Quelle affirmation concernant l'aminoacyl-ARNt synthétase est FAUSSE ?",
+            options: [
+                "Elle catalyse la liaison entre un acide aminé et son ARNt spécifique",
+                "Elle utilise l'énergie de l'ATP pour activer l'acide aminé",
+                "Elle reconnaît spécifiquement l'anticodon de l'ARNt",
+                "Elle est localisée exclusivement dans le noyau cellulaire",
+                "Il existe au moins 20 aminoacyl-ARNt synthétases différentes"
+            ],
+            correctAnswer: 3,
+            explanation: "Les aminoacyl-ARNt synthétases sont localisées dans le cytoplasme (et non exclusivement dans le noyau) car c'est là que se déroule la traduction. Elles catalysent la liaison entre un acide aminé spécifique et son ARNt correspondant, en utilisant l'énergie de l'ATP."
+        },
+        {
+            id: 13,
+            title: "Traduction",
+            question: "Pendant la traduction, quelle est la fonction du site A du ribosome ?",
+            options: [
+                "Accueillir l'ARNt porteur de la chaîne peptidique en croissance",
+                "Accueillir l'ARNt aminoacylé correspondant au codon suivant",
+                "Catalyser la formation de la liaison peptidique",
+                "Lier les facteurs d'initiation de la traduction",
+                "Reconnaître le codon stop et lier les facteurs de terminaison"
+            ],
+            correctAnswer: 1,
+            explanation: "Le site A (Aminoacyl) du ribosome accueille l'ARNt aminoacylé correspondant au codon suivant à traduire. Le site P (Peptidyl) contient l'ARNt porteur de la chaîne peptidique en croissance. La formation de la liaison peptidique a lieu entre les acides aminés situés dans ces deux sites."
+        },
+        {
+            id: 14,
+            title: "Traduction",
+            question: "Quelle étape de la traduction est INCORRECTEMENT décrite ?",
+            options: [
+                "Initiation: formation du complexe d'initiation avec la petite sous-unité ribosomale, l'ARNm et l'ARNt initiateur",
+                "Élongation: ajout séquentiel d'acides aminés à la chaîne peptidique en croissance",
+                "Translocation: déplacement du ribosome le long de l'ARNm de 5' vers 3'",
+                "Terminaison: reconnaissance d'un codon stop et libération de la protéine",
+                "Recyclage: dissociation des sous-unités ribosomales et réutilisation pour une nouvelle traduction"
+            ],
+            correctAnswer: 2,
+            explanation: "La translocation correspond au déplacement du ribosome le long de l'ARNm de 3' vers 5' (et non de 5' vers 3'). Ce mouvement permet au ribosome de lire le codon suivant. L'ARNm est lu dans le sens 5' vers 3', mais le ribosome se déplace dans la direction opposée par rapport à l'orientation de l'ARNm."
+        },
+        {
+            id: 15,
+            title: "Traduction",
+            question: "Quel phénomène est spécifique à la traduction chez les procaryotes mais PAS chez les eucaryotes ?",
+            options: [
+                "L'utilisation d'ARNt spécifiques",
+                "La formation de polysomes",
+                "L'initiation de la traduction au niveau d'une séquence Shine-Dalgarno",
+                "La nécessité d'un codon AUG pour démarrer la traduction",
+                "La présence de trois sites (A, P, E) dans le ribosome"
+            ],
+            correctAnswer: 2,
+            explanation: "La séquence Shine-Dalgarno est spécifique aux procaryotes. Elle est située en amont du codon d'initiation sur l'ARNm et s'apparie avec l'extrémité 3' de l'ARNr 16S de la petite sous-unité ribosomale, permettant le positionnement correct du ribosome. Chez les eucaryotes, l'initiation se fait par scanning depuis la coiffe 5' jusqu'au premier codon AUG."
+        },
+        {
+            id: 16,
+            title: "Transcription",
+            question: "Quelle affirmation concernant les promoteurs eucaryotes et procaryotes est VRAIE ?",
+            options: [
+                "Les promoteurs eucaryotes contiennent toujours une boîte -35 et -10",
+                "Les promoteurs procaryotes contiennent une boîte TATA et une boîte CAAT",
+                "Les promoteurs eucaryotes sont reconnus directement par l'ARN polymérase sans facteurs de transcription",
+                "Les promoteurs procaryotes sont reconnus par la sous-unité σ de l'ARN polymérase",
+                "Les promoteurs eucaryotes et procaryotes ont exactement la même structure"
+            ],
+            correctAnswer: 3,
+            explanation: "Les promoteurs procaryotes sont reconnus directement par la sous-unité σ de l'ARN polymérase, qui se lie spécifiquement aux séquences consensus -35 et -10. En revanche, les promoteurs eucaryotes nécessitent des facteurs de transcription (comme TFIID qui reconnaît la boîte TATA) pour recruter l'ARN polymérase II."
+        },
+        {
+            id: 17,
+            title: "Transcription",
+            question: "Lors de l'épissage des ARNm eucaryotes, quelle séquence n'est PAS impliquée dans la reconnaissance des introns ?",
+            options: [
+                "La séquence GU à l'extrémité 5' de l'intron",
+                "La séquence AG à l'extrémité 3' de l'intron",
+                "La boîte de branchement contenant un A",
+                "La séquence Shine-Dalgarno",
+                "Les séquences riches en pyrimidines"
+            ],
+            correctAnswer: 3,
+            explanation: "La séquence Shine-Dalgarno n'est pas impliquée dans l'épissage mais dans l'initiation de la traduction chez les procaryotes. Les séquences impliquées dans la reconnaissance des introns sont le site donneur d'épissage (GU en 5'), le site accepteur d'épissage (AG en 3'), la boîte de branchement (contenant un A) et les séquences riches en pyrimidines."
+        },
+        {
+            id: 18,
+            title: "Transcription",
+            question: "Quelle modification post-transcriptionnelle est commune aux ARNm procaryotes et eucaryotes ?",
+            options: [
+                "L'ajout d'une coiffe en 5'",
+                "L'épissage des introns",
+                "L'ajout d'une queue poly-A en 3'",
+                "Aucune, les ARNm procaryotes ne subissent pas de modifications post-transcriptionnelles",
+                "La méthylation interne des bases"
+            ],
+            correctAnswer: 4,
+            explanation: "Cette question est un piège. Les ARNm procaryotes ne subissent généralement pas de modifications post-transcriptionnelles majeures comme celles des eucaryotes (coiffe, queue poly-A, épissage). Cependant, certaines méthylations internes des bases peuvent se produire dans les ARNm tant procaryotes qu'eucaryotes, bien que ce soit plus rare chez les procaryotes."
+        },
+        {
+            id: 19,
+            title: "Transcription",
+            question: "Dans quel ordre se déroulent les événements suivants lors de la transcription chez les eucaryotes ?",
+            options: [
+                "Reconnaissance du promoteur → Élongation → Formation du complexe de pré-initiation → Terminaison",
+                "Formation du complexe de pré-initiation → Reconnaissance du promoteur → Élongation → Terminaison",
+                "Reconnaissance du promoteur → Formation du complexe de pré-initiation → Élongation → Terminaison",
+                "Élongation → Reconnaissance du promoteur → Formation du complexe de pré-initiation → Terminaison",
+                "Formation du complexe de pré-initiation → Élongation → Terminaison → Reconnaissance du promoteur"
+            ],
+            correctAnswer: 2,
+            explanation: "L'ordre correct est : Reconnaissance du promoteur (par les facteurs de transcription) → Formation du complexe de pré-initiation (assemblage des facteurs de transcription et de l'ARN polymérase II) → Élongation (synthèse de l'ARNm) → Terminaison (arrêt de la transcription et libération de l'ARNm)."
+        },
+        {
+            id: 20,
+            title: "Transcription",
+            question: "Quelle enzyme est responsable de l'ajout de la queue poly-A aux ARNm eucaryotes ?",
+            options: [
+                "L'ARN polymérase II",
+                "La poly(A) polymérase",
+                "La guanylyl transférase",
+                "La méthyl transférase",
+                "Le splicéosome"
+            ],
+            correctAnswer: 1,
+            explanation: "La poly(A) polymérase est l'enzyme qui catalyse l'ajout de la queue poly-A à l'extrémité 3' des ARNm eucaryotes. Cette réaction ne nécessite pas de matrice et utilise l'ATP comme substrat. L'ARN polymérase II est responsable de la synthèse de l'ARNm, mais pas de l'ajout de la queue poly-A."
+        },
+        {
+            id: 21,
+            title: "Code génétique",
+            question: "Si une séquence d'ADN contient 30% de guanine, quel est le pourcentage d'adénine dans cette même séquence ?",
+            options: [
+                "20%",
+                "30%",
+                "40%",
+                "50%",
+                "Impossible à déterminer avec les informations fournies"
+            ],
+            correctAnswer: 4,
+            explanation: "Cette question est un piège. Selon les règles d'appariement de Watson-Crick, G s'apparie avec C et A avec T. Si l'ADN contient 30% de G, il contient également 30% de C (sur le brin complémentaire). Cela laisse 40% pour A et T combinés, mais sans connaître la répartition exacte entre A et T, il est impossible de déterminer le pourcentage précis d'adénine."
+        },
+        {
+            id: 22,
+            title: "Code génétique",
+            question: "Combien de codons différents peuvent coder pour la leucine ?",
+            options: [
+                "2",
+                "4",
+                "6",
+                "3",
+                "1"
+            ],
+            correctAnswer: 2,
+            explanation: "La leucine est codée par six codons différents : UUA, UUG, CUU, CUC, CUA et CUG. C'est un exemple de la dégénérescence du code génétique, où plusieurs codons peuvent coder pour le même acide aminé."
+        },
+        {
+            id: 23,
+            title: "Code génétique",
+            question: "Quelle mutation aurait l'impact le plus significatif sur la protéine résultante ?",
+            options: [
+                "Substitution de la troisième base d'un codon",
+                "Délétion d'un nucléotide au milieu d'un gène",
+                "Substitution d'une base dans un intron",
+                "Mutation silencieuse dans un exon",
+                "Substitution dans la région 3' non traduite"
+            ],
+            correctAnswer: 1,
+            explanation: "La délétion d'un nucléotide au milieu d'un gène provoque un décalage du cadre de lecture, modifiant tous les codons en aval de la mutation. Cela change complètement la séquence d'acides aminés et produit généralement une protéine non fonctionnelle. Les autres mutations ont généralement des effets moins drastiques ou nuls sur la protéine finale."
+        },
+        {
+            id: 24,
+            title: "Code génétique",
+            question: "Quelle séquence d'ARNm produirait la chaîne peptidique la plus longue ?",
+            options: [
+                "5'-AUGCCCUAAUUUAAA-3'",
+                "5'-AUGCCCUUUUAAAUG-3'",
+                "5'-AUGCCCUUUUUUUUU-3'",
+                "5'-AUGCCCAUGCCCAUG-3'",
+                "5'-AUGCCCUUUUUUUGA-3'"
+            ],
+            correctAnswer: 2,
+            explanation: "La séquence 5'-AUGCCCUUUUUUUUU-3' commence par AUG (codon d'initiation) suivi de CCC (proline) et d'une série de UUU (phénylalanine). Cette séquence ne contient pas de codon stop (UAA, UAG ou UGA), donc la traduction se poursuivrait jusqu'à la fin de l'ARNm, produisant la chaîne peptidique la plus longue parmi les options proposées."
+        },
+        {
+            id: 25,
+            title: "Code génétique",
+            question: "Dans le code génétique, quelle est la particularité du codon AUG ?",
+            options: [
+                "Il code uniquement pour la méthionine",
+                "Il code pour la méthionine et sert de codon d'initiation",
+                "Il code pour la méthionine chez les procaryotes et pour la valine chez les eucaryotes",
+                "Il sert uniquement de codon d'initiation mais ne code pour aucun acide aminé",
+                "Il peut coder pour la méthionine ou la leucine selon le contexte"
+            ],
+            correctAnswer: 1,
+            explanation: "Le codon AUG a une double fonction : il code pour l'acide aminé méthionine et sert également de codon d'initiation de la traduction. Lorsqu'il est utilisé comme codon d'initiation, il est reconnu par un ARNt initiateur spécial portant une méthionine (formylméthionine chez les procaryotes)."
+        },
+        {
+            id: 26,
+            title: "Traduction",
+            question: "Quelle structure n'est PAS impliquée dans la reconnaissance codon-anticodon lors de la traduction ?",
+            options: [
+                "L'ARNt",
+                "Le site A du ribosome",
+                "L'ARNm",
+                "La peptidyl transférase",
+                "Les facteurs d'élongation"
+            ],
+            correctAnswer: 3,
+            explanation: "La peptidyl transférase n'est pas impliquée dans la reconnaissance codon-anticodon mais dans la formation de la liaison peptidique entre les acides aminés. La reconnaissance codon-anticodon se fait entre l'ARNm (codon) et l'ARNt (anticodon) au niveau du site A du ribosome, avec l'aide des facteurs d'élongation."
+        },
+        {
+            id: 27,
+            title: "Traduction",
+            question: "Lors de la traduction, quelle est la fonction du facteur d'élongation EF-Tu (ou eEF1A chez les eucaryotes) ?",
+            options: [
+                "Catalyser la formation de la liaison peptidique",
+                "Reconnaître le codon stop et terminer la traduction",
+                "Amener l'aminoacyl-ARNt au site A du ribosome",
+                "Catalyser la translocation du ribosome",
+                "Activer les acides aminés avant leur liaison à l'ARNt"
+            ],
+            correctAnswer: 2,
+            explanation: "Le facteur d'élongation EF-Tu (ou eEF1A chez les eucaryotes) se lie à l'aminoacyl-ARNt et l'amène au site A du ribosome. Il vérifie également la complémentarité codon-anticodon avant de libérer l'ARNt, ce qui constitue un mécanisme de contrôle de la fidélité de la traduction."
+        },
+        {
+            id: 28,
+            title: "Traduction",
+            question: "Quelle affirmation concernant les polysomes est FAUSSE ?",
+            options: [
+                "Ils permettent la synthèse simultanée de plusieurs copies d'une même protéine",
+                "Ils sont formés de plusieurs ribosomes traduisant un même ARNm",
+                "Ils sont plus efficaces pour la traduction que les monosomes",
+                "Ils sont exclusivement présents chez les eucaryotes",
+                "Ils peuvent être libres dans le cytoplasme ou associés au réticulum endoplasmique"
+            ],
+            correctAnswer: 3,
+            explanation: "Les polysomes ne sont pas exclusifs aux eucaryotes ; ils sont également présents chez les procaryotes. Ils correspondent à plusieurs ribosomes traduisant simultanément un même ARNm, ce qui permet une synthèse protéique plus efficace."
+        },
+        {
+            id: 29,
+            title: "Traduction",
+            question: "Quelle est la fonction de la formylation de la méthionine initiatrice chez les procaryotes ?",
+            options: [
+                "Augmenter l'affinité de l'ARNt initiateur pour le site P du ribosome",
+                "Empêcher l'incorporation de la méthionine initiatrice dans la chaîne peptidique",
+                "Faciliter la reconnaissance du codon d'initiation",
+                "Protéger l'extrémité N-terminale de la protéine contre la dégradation",
+                "Permettre la liaison de la méthionine à l'ARNt initiateur"
+            ],
+            correctAnswer: 0,
+            explanation: "La formylation de la méthionine initiatrice chez les procaryotes (formant la N-formylméthionine ou fMet) augmente l'affinité de l'ARNt initiateur pour le site P du ribosome. Cette modification est spécifique à l'ARNt initiateur et contribue à la fidélité de l'initiation de la traduction."
+        },
+        {
+            id: 30,
+            title: "Traduction",
+            question: "Quel événement se produit APRÈS la reconnaissance d'un codon stop par le ribosome ?",
+            options: [
+                "Liaison d'un ARNt spécifique au codon stop",
+                "Ajout d'un acide aminé supplémentaire",
+                "Liaison d'un facteur de terminaison au site A",
+                "Translocation du ribosome vers le codon suivant",
+                "Phosphorylation de la sous-unité 30S"
+            ],
+            correctAnswer: 2,
+            explanation: "Après la reconnaissance d'un codon stop (UAA, UAG ou UGA), aucun ARNt ne peut s'y lier. À la place, un facteur de terminaison (RF1 ou RF2 chez les procaryotes, eRF1 chez les eucaryotes) se lie au site A du ribosome. Ce facteur déclenche l'hydrolyse de la liaison entre le peptide et le dernier ARNt, libérant ainsi la protéine nouvellement synthétisée."
+        },
+        {
+            id: 31,
+            title: "Transcription",
+            question: "Quelle enzyme est responsable de la synthèse des ARNr chez les eucaryotes ?",
+            options: [
+                "ARN polymérase I",
+                "ARN polymérase II",
+                "ARN polymérase III",
+                "ARN polymérase IV",
+                "Primase"
+            ],
+            correctAnswer: 0,
+            explanation: "L'ARN polymérase I est spécifiquement responsable de la synthèse des ARN ribosomiques (ARNr) 28S, 18S et 5.8S chez les eucaryotes. L'ARN polymérase II synthétise les ARNm et certains petits ARN, tandis que l'ARN polymérase III synthétise les ARNt, l'ARNr 5S et d'autres petits ARN."
+        },
+        {
+            id: 32,
+            title: "Transcription",
+            question: "Quelle structure n'est PAS impliquée dans l'épissage des ARNm eucaryotes ?",
+            options: [
+                "Le splicéosome",
+                "Les snRNP (petites ribonucléoprotéines nucléaires)",
+                "La boîte de branchement",
+                "Le ribosome",
+                "Les sites donneurs et accepteurs d'épissage"
+            ],
+            correctAnswer: 3,
+            explanation: "Le ribosome n'est pas impliqué dans l'épissage des ARNm eucaryotes. L'épissage est réalisé par le splicéosome, un complexe de snRNP (petites ribonucléoprotéines nucléaires) qui reconnaît les sites donneurs et accepteurs d'épissage ainsi que la boîte de branchement. Le ribosome intervient ultérieurement dans la traduction de l'ARNm mature."
+        },
+        {
+            id: 33,
+            title: "Transcription",
+            question: "Quelle affirmation concernant la coiffe 5' des ARNm eucaryotes est INCORRECTE ?",
+            options: [
+                "Elle est ajoutée co-transcriptionnellement",
+                "Elle consiste en un GMP méthylé en position N7",
+                "Elle protège l'ARNm contre la dégradation par les exonucléases",
+                "Elle est reconnue par les facteurs d'initiation de la traduction",
+                "Elle est ajoutée par l'ARN polymérase II elle-même"
+            ],
+            correctAnswer: 4,
+            explanation: "La coiffe 5' n'est pas ajoutée par l'ARN polymérase II elle-même, mais par un ensemble d'enzymes spécifiques : une ARN triphosphatase, une guanylyl transférase et une méthyltransférase. Ces enzymes agissent co-transcriptionnellement, c'est-à-dire pendant que l'ARN polymérase II synthétise encore l'ARNm."
+        },
+        {
+            id: 34,
+            title: "Transcription",
+            question: "Quel mécanisme permet la production de plusieurs protéines différentes à partir d'un même gène chez les eucaryotes ?",
+            options: [
+                "La redondance du code génétique",
+                "L'épissage alternatif",
+                "La présence de plusieurs promoteurs",
+                "La traduction dans différents cadres de lecture",
+                "La modification post-traductionnelle"
+            ],
+            correctAnswer: 1,
+            explanation: "L'épissage alternatif est un mécanisme qui permet d'inclure ou d'exclure différents exons lors de la maturation de l'ARNm, générant ainsi différentes isoformes d'ARNm à partir d'un même gène. Ces différents ARNm peuvent être traduits en protéines distinctes, augmentant considérablement la diversité protéique sans augmenter le nombre de gènes."
+        },
+        {
+            id: 35,
+            title: "Transcription",
+            question: "Quelle séquence d'ADN correspond à un promoteur procaryote typique ?",
+            options: [
+                "TATAAA à -25 et CCAAT à -70",
+                "TATAAT à -10 et TTGACA à -35",
+                "AATAAA à +20",
+                "GGAGG à -8",
+                "GCCGCC à +1"
+            ],
+            correctAnswer: 1,
+            explanation: "Un promoteur procaryote typique contient deux séquences consensus : la boîte -10 (séquence TATAAT, aussi appelée boîte Pribnow) située environ 10 paires de bases en amont du site d'initiation de la transcription, et la boîte -35 (séquence TTGACA) située environ 35 paires de bases en amont. Ces séquences sont reconnues par la sous-unité σ de l'ARN polymérase."
+        },
+        {
+            id: 36,
+            title: "Code génétique",
+            question: "Si un ARNm contient 300 nucléotides, combien d'acides aminés maximum la protéine correspondante peut-elle contenir ?",
+            options: [
+                "100",
+                "99",
+                "98",
+                "97",
+                "300"
+            ],
+            correctAnswer: 1,
+            explanation: "Chaque codon est composé de 3 nucléotides et code pour un acide aminé. Un ARNm de 300 nucléotides contient donc 300/3 = 100 codons. Cependant, au moins un codon doit être un codon stop pour terminer la traduction, et il ne code pas pour un acide aminé. De plus, la traduction commence par un codon d'initiation (AUG). Donc, le nombre maximum d'acides aminés est de 99 (100 codons - 1 codon stop)."
+        },
+        {
+            id: 37,
+            title: "Code génétique",
+            question: "Quelle mutation aurait le moins d'impact sur la fonction de la protéine ?",
+            options: [
+                "Substitution d'une cytosine par une thymine dans le premier nucléotide d'un codon",
+                "Délétion d'un nucléotide au début du gène",
+                "Insertion d'un nucléotide au milieu du gène",
+                "Substitution d'une adénine par une guanine dans le troisième nucléotide d'un codon",
+                "Mutation d'un codon AUG en codon AUA"
+            ],
+            correctAnswer: 3,
+            explanation: "En raison de la dégénérescence du code génétique et du phénomène de 'wobble', une substitution au niveau du troisième nucléotide d'un codon a souvent peu ou pas d'impact sur l'acide aminé codé. Par exemple, les codons GCA, GCC, GCG et GCU codent tous pour l'alanine. Les autres mutations mentionnées auraient des effets plus importants, comme un décalage du cadre de lecture ou un changement d'acide aminé."
+        },
+        {
+            id: 38,
+            title: "Code génétique",
+            question: "Quelle affirmation concernant le code génétique mitochondrial est VRAIE ?",
+            options: [
+                "Il est identique au code génétique nucléaire standard",
+                "Il utilise le codon UGA pour coder le tryptophane au lieu d'être un codon stop",
+                "Il n'utilise que 19 acides aminés au lieu de 20",
+                "Il ne contient pas de codons stop",
+                "Il est spécifique à chaque espèce"
+            ],
+            correctAnswer: 1,
+            explanation: "Le code génétique mitochondrial diffère du code standard sur plusieurs points, notamment l'utilisation du codon UGA pour coder le tryptophane au lieu d'être un codon stop. D'autres différences incluent l'utilisation du codon AUA pour la méthionine (au lieu de l'isoleucine) et des codons AUN pour la méthionine (au lieu de seulement AUG)."
+        },
+        {
+            id: 39,
+            title: "Code génétique",
+            question: "Quelle séquence d'ADN, une fois transcrite en ARNm, produirait la séquence peptidique Met-Pro-Ser ?",
+            options: [
+                "5'-ATGCCATCA-3'",
+                "5'-TACGGTAGT-3'",
+                "5'-ATGCCAAGT-3'",
+                "5'-ATGCCTTCT-3'",
+                "5'-CATGGGTCA-3'"
+            ],
+            correctAnswer: 0,
+            explanation: "La séquence d'ADN 5'-ATGCCATCA-3' est transcrite en ARNm 5'-AUGCCAUCA-3'. Les codons sont AUG (méthionine), CCA (proline) et UCA (sérine), correspondant à la séquence peptidique Met-Pro-Ser."
+        },
+        {
+            id: 40,
+            title: "Code génétique",
+            question: "Quelle est la conséquence d'une mutation non-sens ?",
+            options: [
+                "Remplacement d'un acide aminé par un autre",
+                "Aucun changement dans la séquence d'acides aminés",
+                "Apparition prématurée d'un codon stop",
+                "Décalage du cadre de lecture",
+                "Suppression d'un acide aminé"
+            ],
+            correctAnswer: 2,
+            explanation: "Une mutation non-sens transforme un codon codant pour un acide aminé en un codon stop (UAA, UAG ou UGA), entraînant l'arrêt prématuré de la traduction. Cela produit une protéine tronquée, souvent non fonctionnelle."
+        },
+        {
+            id: 41,
+            title: "Traduction",
+            question: "Quelle structure est INCORRECTEMENT associée à sa fonction dans la traduction ?",
+            options: [
+                "Site A du ribosome - Accueil de l'aminoacyl-ARNt",
+                "Site P du ribosome - Liaison de l'ARNt porteur de la chaîne peptidique",
+                "Site E du ribosome - Sortie de l'ARNt déacylé",
+                "Facteur d'élongation EF-G - Translocation du ribosome",
+                "Facteur d'initiation IF3 - Reconnaissance du codon stop"
+            ],
+            correctAnswer: 4,
+            explanation: "Le facteur d'initiation IF3 n'est pas impliqué dans la reconnaissance du codon stop, mais dans l'initiation de la traduction. Il aide à la dissociation des sous-unités ribosomales et empêche leur réassociation prématurée. La reconnaissance des codons stop est assurée par les facteurs de terminaison (RF1, RF2 chez les procaryotes, eRF1 chez les eucaryotes)."
+        },
+        {
+            id: 42,
+            title: "Traduction",
+            question: "Quelle est la différence entre l'initiation de la traduction chez les procaryotes et les eucaryotes ?",
+            options: [
+                "Les procaryotes utilisent un ARNt initiateur portant une méthionine formylée, contrairement aux eucaryotes",
+                "Les eucaryotes n'utilisent pas de codon AUG comme codon d'initiation",
+                "Les procaryotes n'ont pas besoin de facteurs d'initiation",
+                "Les eucaryotes ne forment pas de complexe d'initiation",
+                "Les procaryotes traduisent l'ARNm de 3' vers 5', contrairement aux eucaryotes"
+            ],
+            correctAnswer: 0,
+            explanation: "Une différence majeure est que les procaryotes utilisent un ARNt initiateur portant une méthionine formylée (fMet-ARNt), tandis que les eucaryotes utilisent un ARNt initiateur portant une méthionine non formylée (Met-ARNt). De plus, les mécanismes de reconnaissance du site d'initiation diffèrent : séquence Shine-Dalgarno chez les procaryotes, scanning depuis la coiffe 5' chez les eucaryotes."
+        },
+        {
+            id: 43,
+            title: "Traduction",
+            question: "Quelle molécule fournit l'énergie nécessaire à la translocation du ribosome lors de l'élongation ?",
+            options: [
+                "ATP",
+                "GTP",
+                "CTP",
+                "UTP",
+                "AMP cyclique"
+            ],
+            correctAnswer: 1,
+            explanation: "La translocation du ribosome lors de l'élongation est catalysée par le facteur d'élongation EF-G (ou eEF2 chez les eucaryotes) et nécessite l'hydrolyse d'une molécule de GTP en GDP + Pi. Cette hydrolyse fournit l'énergie nécessaire au déplacement du ribosome le long de l'ARNm."
+        },
+        {
+            id: 44,
+            title: "Traduction",
+            question: "Quelle affirmation concernant les ARNt est FAUSSE ?",
+            options: [
+                "Ils ont une structure secondaire en forme de trèfle",
+                "Ils portent un acide aminé à leur extrémité 3'",
+                "Ils contiennent un anticodon complémentaire au codon de l'ARNm",
+                "Ils sont chargés par les aminoacyl-ARNt synthétases",
+                "Ils sont tous spécifiques d'un seul codon"
+            ],
+            correctAnswer: 4,
+            explanation: "Il est faux que tous les ARNt sont spécifiques d'un seul codon. En raison du phénomène de 'wobble', certains ARNt peuvent reconnaître plusieurs codons qui diffèrent par leur troisième base. Par exemple, un ARNt avec l'anticodon GUU peut reconnaître les codons AAC et AAU, qui codent tous deux pour l'asparagine."
+        },
+        {
+            id: 45,
+            title: "Traduction",
+            question: "Quel inhibiteur bloque spécifiquement la traduction chez les procaryotes mais pas chez les eucaryotes ?",
+            options: [
+                "Cycloheximide",
+                "Puromycine",
+                "Chloramphénicol",
+                "α-amanitine",
+                "Actinomycine D"
+            ],
+            correctAnswer: 2,
+            explanation: "Le chloramphénicol est un antibiotique qui inhibe spécifiquement la traduction chez les procaryotes en se liant à la sous-unité 50S du ribosome bactérien et en bloquant l'activité peptidyl transférase. Il n'affecte pas les ribosomes 80S des eucaryotes, ce qui explique sa sélectivité et son utilisation comme antibiotique."
+        },
+        {
+            id: 46,
+            title: "Transcription",
+            question: "Quelle enzyme est impliquée dans l'épissage des ARNm ?",
+            options: [
+                "L'ARN polymérase II",
+                "La primase",
+                "La ribonucléase P",
+                "L'ARN du splicéosome (snRNA)",
+                "La télomérase"
+            ],
+            correctAnswer: 3,
+            explanation: "L'épissage des ARNm est catalysé par le splicéosome, un complexe ribonucléoprotéique contenant des petits ARN nucléaires (snRNA) qui possèdent une activité catalytique. Ces snRNA (U1, U2, U4, U5, U6) sont les véritables enzymes de l'épissage, faisant du splicéosome un ribozyme. L'ARN polymérase II est impliquée dans la transcription, pas dans l'épissage."
+        },
+        {
+            id: 47,
+            title: "Transcription",
+            question: "Quelle modification de la chromatine favorise généralement la transcription active ?",
+            options: [
+                "La méthylation des cytosines dans les îlots CpG",
+                "La désacétylation des histones",
+                "L'acétylation des histones",
+                "La compaction de la chromatine",
+                "La méthylation de la lysine 9 de l'histone H3"
+            ],
+            correctAnswer: 2,
+            explanation: "L'acétylation des histones, particulièrement sur leurs queues N-terminales, neutralise les charges positives des lysines, réduisant l'interaction entre les histones et l'ADN chargé négativement. Cela conduit à une structure chromatinienne plus ouverte, facilitant l'accès des facteurs de transcription et de l'ARN polymérase à l'ADN, et donc favorisant la transcription active."
+        },
+        {
+            id: 48,
+            title: "Transcription",
+            question: "Quelle séquence d'ADN est reconnue par la protéine TATA-binding (TBP) chez les eucaryotes ?",
+            options: [
+                "CCAAT",
+                "TATAAT",
+                "AATAAA",
+                "GCCGCC",
+                "GGAGG"
+            ],
+            correctAnswer: 1,
+            explanation: "La protéine TATA-binding (TBP), composante du facteur de transcription TFIID, reconnaît spécifiquement la boîte TATA (séquence consensus TATAA/TA) située environ 25-30 paires de bases en amont du site d'initiation de la transcription dans de nombreux promoteurs eucaryotes."
+        },
+        {
+            id: 49,
+            title: "Transcription",
+            question: "Quel facteur de transcription eucaryote est INCORRECTEMENT associé à sa fonction ?",
+            options: [
+                "TFIID - Reconnaissance de la boîte TATA",
+                "TFIIH - Activité hélicase et kinase",
+                "TFIIB - Recrutement de l'ARN polymérase II",
+                "TFIIF - Prévention des interactions non spécifiques de l'ARN polymérase II avec l'ADN",
+                "TFIIA - Catalyse de l'épissage des introns"
+            ],
+            correctAnswer: 4,
+            explanation: "TFIIA n'est pas impliqué dans l'épissage des introns. Sa fonction est de stabiliser la liaison de TFIID à la boîte TATA et de faciliter l'assemblage du complexe de pré-initiation. L'épissage des introns est catalysé par le splicéosome, un complexe distinct des facteurs de transcription."
+        },
+        {
+            id: 50,
+            title: "Transcription",
+            question: "Quelle structure est commune aux ARN polymérases procaryotes et eucaryotes ?",
+            options: [
+                "La sous-unité σ",
+                "Le domaine CTD (C-terminal domain)",
+                "Le site catalytique contenant des ions Mg²⁺",
+                "La sous-unité ω",
+                "Le facteur de terminaison Rho"
+            ],
+            correctAnswer: 2,
+            explanation: "Le site catalytique contenant des ions Mg²⁺ est une caractéristique conservée dans toutes les ARN polymérases, tant procaryotes qu'eucaryotes. Ces ions métalliques sont essentiels pour la catalyse de la formation des liaisons phosphodiester. Les autres structures mentionnées sont spécifiques soit aux procaryotes (sous-unité σ, sous-unité ω, facteur Rho), soit aux eucaryotes (domaine CTD de l'ARN polymérase II)."
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answeredQuestions = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    
+    // Catégories pour l'analyse des résultats
+    const categories = {
+        "Transcription": { correct: 0, total: 0 },
+        "Code génétique": { correct: 0, total: 0 },
+        "Traduction": { correct: 0, total: 0 }
+    };
+
+    function displayQuestion(index) {
+        const question = questions[index];
+        const quizContainer = document.getElementById('quiz-container');
+        
+        // Compter les questions par catégorie
+        categories[question.title].total++;
+        
+        // Créer l'élément de question
+        const questionElement = document.createElement('div');
+        questionElement.id = `question-${index}`;
+        questionElement.className = 'question-card bg-white p-6 rounded-xl shadow-md';
+        questionElement.style.display = index === currentQuestionIndex ? 'block' : 'none';
+        
+        // Contenu de la question
+        questionElement.innerHTML = `
+            <div class="flex justify-between items-center mb-4">
+                <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">${question.title}</span>
+                <span class="text-gray-500 text-sm">Question ${index + 1}/50</span>
+            </div>
+            <h3 class="text-lg font-semibold mb-4">${question.question}</h3>
+            <div class="space-y-3 mb-4">
+                ${question.options.map((option, i) => `
+                    <div class="option border border-gray-300 rounded-lg p-3 cursor-pointer flex items-center" data-index="${i}">
+                        <span class="text-indigo-700 font-bold mr-3">${String.fromCharCode(65 + i)}</span>
+                        <span>${option}</span>
+                    </div>
+                `).join('')}
+            </div>
+            <div class="explanation mt-4 p-4 bg-indigo-50 rounded-lg">
+                <p class="font-semibold mb-1">Explication:</p>
+                <p>${question.explanation}</p>
+            </div>
+        `;
+        
+        // Ajouter la question au conteneur
+        if (document.getElementById(`question-${index}`)) {
+            document.getElementById(`question-${index}`).replaceWith(questionElement);
+        } else {
+            quizContainer.appendChild(questionElement);
+        }
+        
+        // Ajouter les écouteurs d'événements aux options
+        const options = questionElement.querySelectorAll('.option');
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                // Désélectionner toutes les options
+                options.forEach(opt => opt.classList.remove('selected'));
+                // Sélectionner l'option cliquée
+                this.classList.add('selected');
+                // Enregistrer la réponse de l'utilisateur
+                userAnswers[index] = parseInt(this.dataset.index);
+            });
+            
+            // Restaurer la sélection précédente si elle existe
+            if (userAnswers[index] !== null && parseInt(option.dataset.index) === userAnswers[index]) {
+                option.classList.add('selected');
+            }
+        });
+        
+        // Mettre à jour la barre de progression
+        updateProgressBar();
+    }
+
+    function checkAnswer() {
+        const currentQuestion = questions[currentQuestionIndex];
+        const selectedOption = document.querySelector(`#question-${currentQuestionIndex} .option.selected`);
+        
+        if (!selectedOption) {
+            alert("Veuillez sélectionner une réponse avant de vérifier.");
+            return;
+        }
+        
+        const selectedIndex = parseInt(selectedOption.dataset.index);
+        const isCorrect = selectedIndex === currentQuestion.correctAnswer;
+        
+        // Mettre à jour le score
+        if (isCorrect) {
+            score++;
+            categories[currentQuestion.title].correct++;
+        }
+        
+        // Marquer les options comme correctes ou incorrectes
+        const options = document.querySelectorAll(`#question-${currentQuestionIndex} .option`);
+        options.forEach((option, index) => {
+            option.classList.remove('selected');
+            if (index === currentQuestion.correctAnswer) {
+                option.classList.add('correct');
+            } else if (index === selectedIndex) {
+                option.classList.add('incorrect');
+            }
+        });
+        
+        // Afficher l'explication
+        document.querySelector(`#question-${currentQuestionIndex} .explanation`).style.display = 'block';
+        
+        // Désactiver les options
+        options.forEach(option => {
+            option.style.pointerEvents = 'none';
+        });
+        
+        // Mettre à jour le nombre de questions répondues
+        answeredQuestions++;
+        
+        // Mettre à jour le score affiché
+        document.getElementById('score-text').textContent = `Score: ${score}/${answeredQuestions}`;
+        
+        // Activer le bouton suivant
+        document.getElementById('check-btn').style.display = 'none';
+        document.getElementById('next-btn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+        // Cacher la question actuelle
+        document.getElementById(`question-${currentQuestionIndex}`).style.display = 'none';
+        
+        // Passer à la question suivante
+        currentQuestionIndex++;
+        
+        // Vérifier si c'est la fin du quiz
+        if (currentQuestionIndex >= questions.length) {
+            showResults();
+            return;
+        }
+        
+        // Afficher la nouvelle question
+        displayQuestion(currentQuestionIndex);
+        
+        // Réinitialiser les boutons
+        document.getElementById('check-btn').style.display = 'block';
+        document.getElementById('next-btn').style.display = 'none';
+        
+        // Activer/désactiver les boutons de navigation
+        document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
+    }
+
+    function prevQuestion() {
+        // Cacher la question actuelle
+        document.getElementById(`question-${currentQuestionIndex}`).style.display = 'none';
+        
+        // Passer à la question précédente
+        currentQuestionIndex--;
+        
+        // Afficher la nouvelle question
+        displayQuestion(currentQuestionIndex);
+        
+        // Activer/désactiver les boutons de navigation
+        document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
+    }
+
+    function updateProgressBar() {
+        const progressPercentage = (currentQuestionIndex / questions.length) * 100;
+        document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
+        document.getElementById('progress-text').textContent = `Question ${currentQuestionIndex + 1}/${questions.length}`;
+    }
+
+    function showResults() {
+        // Cacher le conteneur de quiz
+        document.getElementById('quiz-container').style.display = 'none';
+        document.getElementById('prev-btn').style.display = 'none';
+        document.getElementById('check-btn').style.display = 'none';
+        document.getElementById('next-btn').style.display = 'none';
+        
+        // Afficher les résultats
+        const resultsElement = document.getElementById('results');
+        resultsElement.style.display = 'block';
+        
+        // Mettre à jour le score final
+        document.getElementById('final-score').textContent = `${score}/${questions.length}`;
+        
+        // Analyser les forces et faiblesses
+        const strengths = document.getElementById('strengths');
+        const weaknesses = document.getElementById('weaknesses');
+        
+        strengths.innerHTML = '';
+        weaknesses.innerHTML = '';
+        
+        for (const category in categories) {
+            const { correct, total } = categories[category];
+            const percentage = (correct / total) * 100;
+            
+            const listItem = document.createElement('li');
+            listItem.textContent = `${category}: ${correct}/${total} (${percentage.toFixed(1)}%)`;
+            
+            if (percentage >= 60) {
+                strengths.appendChild(listItem);
+            } else {
+                weaknesses.appendChild(listItem);
+            }
+        }
+        
+        // Si aucune force ou faiblesse n'est identifiée
+        if (strengths.children.length === 0) {
+            strengths.innerHTML = '<li>Aucun point fort identifié. Continuez à travailler!</li>';
+        }
+        if (weaknesses.children.length === 0) {
+            weaknesses.innerHTML = '<li>Félicitations! Aucune faiblesse majeure identifiée.</li>';
+        }
+    }
+
+    function restartQuiz() {
+        // Réinitialiser les variables
+        currentQuestionIndex = 0;
+        score = 0;
+        answeredQuestions = 0;
+        userAnswers = new Array(questions.length).fill(null);
+        
+        for (const category in categories) {
+            categories[category].correct = 0;
+            categories[category].total = 0;
+        }
+        
+        // Vider le conteneur de quiz
+        document.getElementById('quiz-container').innerHTML = '';
+        document.getElementById('quiz-container').style.display = 'block';
+        
+        // Réinitialiser les boutons
+        document.getElementById('prev-btn').style.display = 'block';
+        document.getElementById('check-btn').style.display = 'block';
+        document.getElementById('next-btn').style.display = 'none';
+        document.getElementById('prev-btn').disabled = true;
+        
+        // Cacher les résultats
+        document.getElementById('results').style.display = 'none';
+        
+        // Réinitialiser le score affiché
+        document.getElementById('score-text').textContent = 'Score: 0/0';
+        
+        // Afficher la première question
+        displayQuestion(0);
+    }
+
+    // Initialisation
+    document.getElementById('check-btn').addEventListener('click', checkAnswer);
+    document.getElementById('next-btn').addEventListener('click', nextQuestion);
+    document.getElementById('prev-btn').addEventListener('click', prevQuestion);
+    document.getElementById('restart-btn').addEventListener('click', restartQuiz);
+    
+    // Cacher le bouton suivant au début
+    document.getElementById('next-btn').style.display = 'none';
+    
+    // Afficher la première question
+    displayQuestion(0);
+</script>
